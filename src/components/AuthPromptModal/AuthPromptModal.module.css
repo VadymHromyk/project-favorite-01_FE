@@ -1,0 +1,90 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #FFF2EC;
+  padding: 64px 40px;
+  border-radius: 32px;
+  max-width: 768px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #111111;
+  line-height: 1;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111111;
+  margin: 0;
+}
+
+.description {
+  font-size: 18px;
+  line-height: 1.5;
+  color: #333333;
+  max-width: 500px;
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  width: 100%;
+}
+
+.loginButton, .registerButton {
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.loginButton {
+  background-color: #EFE3DD; 
+  color: #111111;
+  border: 1px solid #DCD0C9;
+}
+
+.loginButton:hover {
+  background-color: #E2D6D0;
+}
+
+.registerButton {
+  background-color: #D16D43; 
+  color: #ffffff;
+  border: none;
+}
+
+.registerButton:hover {
+  background-color: #BD5C32;
+}
