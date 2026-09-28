@@ -1,0 +1,106 @@
+.backdrop {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center; align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #FFF2EC;
+  padding: 64px 40px;
+  border-radius: 32px;
+  max-width: 768px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 24px; right: 24px;
+  background: none; border: none;
+  font-size: 28px; cursor: pointer;
+  color: #111111; line-height: 1;
+}
+
+.title {
+  font-size: 44px;
+  font-weight: 800;
+  color: #111111;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.description {
+  font-size: 18px;
+  line-height: 1.5;
+  color: #333333;
+  max-width: 500px;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  width: 100%;
+}
+
+.cancelButton, .confirmButton {
+  padding: 14px 40px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+  border: none;
+}
+
+.cancelButton {
+  background-color: #EFE3DD;
+  color: #111111;
+  border: 1px solid #DCD0C9;
+}
+
+.cancelButton:hover { background-color: #E2D6D0; }
+
+.confirmButton {
+  background-color: #D16D43;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.confirmButton:hover { background-color: #BD5C32; }
+
+.confirmButton:disabled {
+  background-color: #cca494;
+  cursor: not-allowed;
+}
+
+.loader {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
