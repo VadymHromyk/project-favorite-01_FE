@@ -1,0 +1,87 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000025;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  animation: fadeIn 0.3s ease-out;
+}
+.modal {
+  background-color: #fff2ec;
+  border-radius: 24px;
+  position: relative;
+  width: 100%;
+  max-width: 334px;
+  max-height: 100%;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease-out;
+}
+
+@media only screen and (min-width: 768px) {
+  .modal {
+    max-width: 768px;
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  stroke: var(--color-neutral-darkest);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+  opacity: 1;
+}
+.closeButton:hover {
+  opacity: 0.5;
+}
+
+@media only screen and (min-width: 768px) {
+  .xIcon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.content {
+  padding: 64px 20px;
+}
+@media only screen and (min-width: 768px) {
+  .content {
+    padding: 64px 32px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

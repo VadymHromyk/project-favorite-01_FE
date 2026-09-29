@@ -1,52 +1,37 @@
 import type { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
+import "modern-normalize/modern-normalize.css";
 import "./globals.css";
-import { Roboto } from "next/font/google";
+import { Footer } from "@/components/Footer/Footer";
+import Header from "@/components/Header/Header";
+import { Montserrat } from "next/font/google";
 
-export const metadata: Metadata = {
-  title: "NoteHub",
-  description: "App for creating your notes",
-  openGraph: {
-    title: "NoteHub",
-    description: "App for creating your notes",
-    url: "https://08-zustand-rust-phi.vercel.app/",
-    images: [
-      {
-        url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
-        width: 1200,
-        height: 630,
-        alt: "NoteHub application",
-      },
-    ],
-  },
-};
-
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-roboto",
+const montserrat = Montserrat({
+  subsets: ["latin", "cyrillic"],
   display: "swap",
 });
+
+export const metadata: Metadata = {
+  title: "RelaxMap",
+  description: "RelaxMap frontend application",
+};
 
 export default function RootLayout({
   children,
   modal,
-}: Readonly<{
-  children: React.ReactNode;
-  modal: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode; modal: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className={roboto.variable}>
-        {/* <TanStackProvider>
-          <AuthProvider>
-            <Header /> */}
-        <>
-          {children}
-          {modal}
-        </>
-        {/* <Footer />
-          </AuthProvider>
-        </TanStackProvider> */}
+    <html lang="uk">
+      <body className={montserrat.className}>
+        <div className="app-wrapper">
+          <Header />
+          <main className="main-content">
+            {children}
+            {modal}
+          </main>
+          <Footer />
+        </div>
+        <Toaster position="top-center" />
       </body>
     </html>
   );

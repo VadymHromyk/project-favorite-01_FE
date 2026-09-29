@@ -1,0 +1,68 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  font-size: 16px;
+  font-weight: 500;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.btn svg {
+  stroke: currentColor;
+  fill: none;
+}
+
+.btn:disabled,
+.btn.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.primary {
+  background: #cc6534;
+  color: #fff;
+}
+
+.primary:hover,
+.primary:focus-visible {
+  background: #ffe5d9;
+  border-color: #cc6534;
+  color: #1b391b;
+}
+
+.primary:active {
+  background-color: #cc6534;
+  border-color: transparent;
+  color: #fff;
+  transform: scale(0.97);
+}
+
+.secondary {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #1b391b;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.secondary:hover,
+.secondary:focus-visible {
+  background-color: #cc6534;
+  border-color: transparent;
+  color: #fff;
+}
+
+.secondary:active {
+  background-color: #254c24;
+  transform: scale(0.97);
+}
+
+@media (min-width: 1440px) {
+  .btn {
+    font-size: 20px;
+  }
+}
