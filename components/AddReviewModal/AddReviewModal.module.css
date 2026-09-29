@@ -1,0 +1,79 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 1000;
+  padding: 40px 16px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.reviewPopup {
+  position: relative;
+  background: #fff2ec;
+  border-radius: 24px;
+  padding: 64px 20px;
+  width: 100%;
+  max-width: 334px;
+  box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.popupCloseBtn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: opacity 0.2s ease;
+}
+
+.popupCloseBtn:hover {
+  opacity: 0.6;
+}
+
+.popupTitle {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: #000000;
+  margin-top: 0;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .reviewPopup {
+    max-width: 704px;
+    padding: 64px 32px;
+  }
+
+  .popupTitle {
+    font-size: 28px;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+}
+
+@media (min-width: 1440px) {
+  .reviewPopup {
+    max-width: 768px;
+    padding: 64px 64px;
+  }
+}

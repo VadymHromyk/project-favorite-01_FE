@@ -1,0 +1,183 @@
+.reviewForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.formInputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.inputLabel {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #000000;
+  text-align: left;
+}
+
+.reviewTextarea {
+  width: 100%;
+  height: 180px;
+  padding: 16px;
+  background-color: #ffe5d9;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #000000;
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.reviewTextarea::placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.reviewTextarea:focus {
+  border-color: #cc6534;
+}
+
+.ratingStarsRow {
+  display: flex;
+  gap: 12px;
+  height: 32px;
+  align-items: center;
+  margin-bottom: 32px;
+  justify-content: flex-start;
+}
+
+.interactiveStarItem {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.starIcon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.interactiveStarItem:hover .starIcon {
+  transform: scale(1.1);
+}
+
+.starActive {
+  color: #cc6534;
+}
+
+.starInactive {
+  color: #000000;
+}
+
+.validationError {
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  color: #e74c3c;
+  margin-top: 4px;
+}
+
+/* --- КНОПКИ ДЛЯ МОБІЛЬНОЇ ВЕРСІЇ --- */
+.formButtonsLayout {
+  display: flex;
+  flex-direction: column;
+  /* Кнопки стають вертикально одна під одною */
+  gap: 24px;
+  width: 100%;
+}
+
+.dismissFormBtn,
+.submitReviewBtn {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.5;
+  width: 100%;
+  /* Розтягуються на всю ширину мобільної форми */
+  height: 48px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+  box-sizing: border-box;
+}
+
+.dismissFormBtn {
+  background-color: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: #4c2613;
+}
+
+.dismissFormBtn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.submitReviewBtn {
+  background-color: #cc6534;
+  border: 1px solid #cc6534;
+  color: #ffffff;
+}
+
+.submitReviewBtn:hover {
+  background-color: #b35327;
+  border-color: #b35327;
+}
+
+.submitReviewBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnSpinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #ffffff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  animation: spinRotation 1s linear infinite;
+}
+
+@keyframes spinRotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- КНОПКИ ДЛЯ ДЕСКТОПНОЇ ВЕРСІЇ (Екрани від 768px і більше) --- */
+@media (min-width: 768px) {
+  .formButtonsLayout {
+    flex-direction: row;
+    /* Повертаються в горизонтальний рядок */
+    justify-content: center;
+    /* Стають по центру десктопного вікна */
+    gap: 24px;
+    width: 100%;
+  }
+
+  .dismissFormBtn,
+  .submitReviewBtn {
+    width: 203px;
+  }
+}
