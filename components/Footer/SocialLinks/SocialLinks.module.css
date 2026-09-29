@@ -1,0 +1,62 @@
+.socialColumn {
+  width: 290px;
+  display: flex;
+  justify-content: center;
+}
+
+.socialLinks {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+  width: 290px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.socialLink {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  color: #4c2613;
+}
+
+.socialIcon {
+  width: 32px;
+  height: 32px;
+  fill: currentColor;
+}
+
+@media (min-width: 768px) {
+  .socialColumn {
+    justify-content: flex-end;
+  }
+
+  .socialLinks {
+    justify-content: flex-end;
+    gap: 12px;
+    height: 24px;
+  }
+
+  .socialLink,
+  .socialIcon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .socialColumn {
+    width: 400px;
+    justify-content: center;
+  }
+
+  .socialLinks {
+    width: 132px;
+    justify-content: center;
+  }
+}

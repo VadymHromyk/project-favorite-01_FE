@@ -1,0 +1,28 @@
+.authFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  min-height: 72px;
+  padding: 0 20px;
+  margin: 0 auto;
+  background-color: #4c2613;
+}
+
+.authText {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (min-width: 1440px) {
+  .authText {
+    font-size: 14px;
+  }
+}

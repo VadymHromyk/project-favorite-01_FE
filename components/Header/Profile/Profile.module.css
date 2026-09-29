@@ -1,0 +1,58 @@
+.profileWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+}
+.editButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.profileImage {
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+  width: 32px;
+  height: 32px;
+  background: var(--color-neutral-lighter);
+}
+.profileName {
+  font-size: 12px;
+  line-height: 150%;
+  color: var(--color-green-dark);
+}
+
+.profileBorder {
+  width: 1px;
+  height: 29px;
+  background: var(--color-neutral-lighter);
+}
+
+.profileLogoutIcon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  flex-shrink: 0;
+  overflow: visible;
+
+  .profileIcon {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}
+
+@media (min-width: 1440px) {
+  .profileWrapper {
+    margin-top: 0;
+    margin-left: 10px;
+  }
+  .profileName {
+    font-size: 16px;
+  }
+}

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Roboto } from "next/font/google";
+import Header from "../components/Header/Header";
+import { Footer } from "@/components/Footer/Footer";
 
 export const metadata: Metadata = {
   title: "NoteHub",
@@ -37,13 +39,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.variable}>
-        {/* <TanStackProvider>
-          <AuthProvider>
-            <Header /> */}
+        {/* { <TanStackProvider>
+          <AuthProvider> */}
+        <Header />
         <>
           {children}
           {modal}
         </>
+        <Footer />
         {/* <Footer />
           </AuthProvider>
         </TanStackProvider> */}

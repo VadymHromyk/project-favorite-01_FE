@@ -1,0 +1,44 @@
+.credits {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.divider {
+  width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.creditsRow {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.copyText {
+  width: 239px;
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  color: #4c2613;
+}
+
+@media (min-width: 768px) {
+  .copyText {
+    width: 288px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .copyText {
+    width: 384px;
+    font-size: 16px;
+  }
+}

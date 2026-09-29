@@ -1,0 +1,29 @@
+.logo {
+  width: 129px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 3.31px;
+}
+
+.logoIconWrapper {
+  width: 24px;
+  height: 24px;
+  display: block;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.logoIcon {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.logoText {
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 100%;
+  letter-spacing: -0.01em;
+  color: #4c2613;
+}
