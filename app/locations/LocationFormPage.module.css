@@ -1,0 +1,52 @@
+.page {
+  padding: 32px 0 64px;
+}
+
+.container {
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.title {
+  margin: 0 0 24px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #000000;
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 48px 0 80px;
+  }
+
+  .container {
+    max-width: 768px;
+    padding: 0 32px;
+  }
+
+  .title {
+    margin-bottom: 32px;
+    font-size: 36px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .page {
+    padding: 64px 0 112px;
+  }
+
+  .container {
+    max-width: 1440px;
+    padding: 0 112px;
+  }
+
+  .title {
+    margin-bottom: 40px;
+    font-size: 44px;
+  }
+}
