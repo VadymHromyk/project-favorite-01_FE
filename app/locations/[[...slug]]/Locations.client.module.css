@@ -1,0 +1,11 @@
+.content {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .content {
+    gap: 40px;
+  }
+}

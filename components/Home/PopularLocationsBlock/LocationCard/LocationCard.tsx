@@ -1,8 +1,8 @@
-import Image from "next/image";
-import css from "./LocationCard.module.css";
-import { Location } from "@/types/profile";
-import { Stars } from "@/components/Ui/Stars";
-import { AppLink } from "@/components/Ui/Button/Button";
+import Image from 'next/image';
+import css from './LocationCard.module.css';
+import { Location } from '@/types/profile';
+import { Stars } from '@/components/Ui/Stars';
+import { AppLink } from '@/components/Ui/Button/Button';
 
 interface LocationCardProps {
   location: Location;
@@ -10,7 +10,7 @@ interface LocationCardProps {
 
 export default function LocationCard({ location }: LocationCardProps) {
   const rate = location.rate ?? location.rating ?? 0;
-  const imageUrl = location.image || "/placeholder-location.webp";
+  const imageUrl = location.image || '/placeholder-location.webp';
 
   return (
     <div className={css.cardWrapper}>
@@ -19,7 +19,7 @@ export default function LocationCard({ location }: LocationCardProps) {
           width={280}
           height={280}
           src={imageUrl}
-          alt={location.name ?? "Локація"}
+          alt={location.name ?? 'Локація'}
           className={css.cardImage}
         />
       </div>
@@ -33,7 +33,7 @@ export default function LocationCard({ location }: LocationCardProps) {
           href={`/locations/${location._id}`}
           className={css.cardLink}
           variant="secondary"
-          ariaLabel={`Переглянути локацію ${location.name ?? ""}`}
+          ariaLabel={`Переглянути локацію ${location.name ?? ''}`}
         >
           Переглянути локацію
         </AppLink>
