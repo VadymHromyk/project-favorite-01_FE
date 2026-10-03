@@ -1,0 +1,102 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  background-color: #ffe5d9;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #4c2613;
+  outline: none;
+  transition: border-color 250ms ease;
+}
+
+.input::placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.input:focus {
+  border-color: #cc6534;
+}
+
+.inputError,
+.inputError:focus {
+  border-color: #b00101;
+  color: #b00101;
+}
+
+.error {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #b00101;
+}
+
+.button {
+  height: 44px;
+  padding: 6px 12px;
+  border: 1px solid #cc6534;
+  border-radius: 6px;
+  background-color: #cc6534;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #fff;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (min-width: 1440px) {
+  .label,
+  .input {
+    font-size: 18px;
+  }
+
+  .button {
+    font-size: 20px;
+  }
+}
+
+.button {
+  transition:
+    background-color 250ms ease,
+    color 250ms ease;
+}
+
+.button:hover:not(:disabled),
+.button:focus-visible {
+  background-color: #ffe5d9;
+  color: #4c2613;
+}
+
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #4c2613;
+  box-shadow: 0 0 0 1000px #ffe5d9 inset;
+}

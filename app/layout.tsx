@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Roboto } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "NoteHub",
@@ -42,6 +43,7 @@ export default function RootLayout({
         <>
           {children}
           {modal}
+          <Toaster />
         </>
         {/* <Footer />
           </AuthProvider>

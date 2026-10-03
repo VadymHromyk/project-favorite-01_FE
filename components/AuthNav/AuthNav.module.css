@@ -1,0 +1,35 @@
+.list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  flex: 1;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: content-box;
+  height: 48px;
+  padding: 0 24px;
+  border-bottom: 1px solid transparent;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.active {
+  border-bottom-color: rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 1440px) {
+  .link {
+    font-size: 18px;
+  }
+}
