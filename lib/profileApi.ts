@@ -1,4 +1,4 @@
-import { nextServer } from "@/lib/api/api";
+import { nextServer } from "@/lib/api";
 import type { UserLocationsResponse } from "@/types/profile";
 
 interface GetUserLocationsParams {
