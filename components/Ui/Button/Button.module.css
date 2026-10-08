@@ -25,6 +25,7 @@
 }
 
 .primary {
+  padding: 5px 10px;
   background: #cc6534;
   color: #fff;
 }
@@ -44,6 +45,7 @@
 }
 
 .secondary {
+  padding: 5px 10px;
   background-color: rgba(0, 0, 0, 0.05);
   color: #1b391b;
   border-color: rgba(0, 0, 0, 0.15);

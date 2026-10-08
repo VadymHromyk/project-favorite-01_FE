@@ -1,80 +1,202 @@
 .profile {
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
+  padding: 32px 0;
+  text-align: center;
 }
 
 .avatar {
   width: 145px;
   height: 145px;
-  flex-shrink: 0;
   border-radius: 50%;
   object-fit: cover;
+  flex-shrink: 0;
+}
+
+.avatarPlaceholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  background-color: var(--color-coral-lighter, #fce8e6);
+  color: var(--color-coral-darker, #e53935);
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
 .avatarContent {
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 4px;
 }
 
 .username {
   margin: 0;
-  width: 100%;
-  font-family: var(--font-family);
-  font-weight: 700;
   font-size: 20px;
-  line-height: 130%;
+  line-height: 1.3;
+  font-weight: 700;
   letter-spacing: -0.01em;
-  text-align: center;
-  color: var(--color-scheme-2-text);
+  color: var(--color-green-dark, #1b4332);
 }
 
 .articlesCount {
   margin: 0;
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--color-neutral, #6b7280);
+}
+
+.editBtn {
+  padding: 4px 10px;
+}
+
+/* --- Модальне вікно --- */
+
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modalContent {
+  background-color: #ffffff;
+  border-radius: 12px;
   width: 100%;
-  font-family: var(--font-family);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 150%;
-  text-align: center;
-  color: var(--color-scheme-2-text);
+  max-width: 440px;
+  padding: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.2s ease-out;
 }
 
-.avatarPlaceholder {
-  background-color: #e0e0e0;
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-@media screen and (min-width: 768px) {
+.modalHeader h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px 8px;
+}
+
+.closeBtn:hover {
+  color: #111827;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.avatarPreviewContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.avatarPreview {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inputGroup label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.input {
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: #2563eb;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (min-width: 768px) {
   .profile {
     flex-direction: row;
+    align-items: center;
+    text-align: left;
   }
 
   .avatarContent {
-    width: auto;
     align-items: flex-start;
   }
 
-  .username {
-    width: auto;
-    text-align: left;
-  }
-
-  .articlesCount {
-    width: auto;
-    text-align: left;
+  .editBtn {
+    margin-left: auto;
   }
 }
 
-@media screen and (min-width: 1440px) {
+@media (min-width: 1280px) {
   .username {
     font-size: 32px;
   }
 
-  .articlesCount {
-    font-size: 20px;
+  .editBtn {
+    margin-left: 100px;
   }
 }
