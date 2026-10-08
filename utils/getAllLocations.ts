@@ -12,6 +12,7 @@ export const getAllLocations = cache(async (): Promise<Location[]> => {
       const response = await getLocations({
         page,
         limit: 100,
+        sort: "popular",
       });
 
       if (!response || !Array.isArray(response.locations)) {

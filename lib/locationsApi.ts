@@ -3,7 +3,8 @@ import type { Location } from "@/types/profile";
 import type { LocationDetails } from "@/types/location";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://api.your-domain.com";
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://project-favorite-01-be.onrender.com";
 
 const publicApi = axios.create({
   baseURL: API_BASE_URL,
@@ -36,6 +37,7 @@ interface GetLocationsParams {
   region?: string;
   locationType?: string;
   sort?: string;
+  sortBy?: string;
 }
 
 interface LocationsResponse {
@@ -71,22 +73,10 @@ interface CategoriesResponse {
   locationTypes: LocationType[];
 }
 
-// export const getLocationTypes = async (): Promise<LocationType[]> => {
-//   const { data } = await publicApi.get<LocationType[]>(
-//     '/categories/location-types'
-//   );
-//   return data;
-// };
-
 export const getLocationTypes = async (): Promise<LocationType[]> => {
   const { data } = await publicApi.get<CategoriesResponse>("/categories");
   return data.locationTypes;
 };
-
-// export const getRegions = async (): Promise<Region[]> => {
-//   const { data } = await publicApi.get<Region[]>('/categories/regions');
-//   return data;
-// };
 
 export const getRegions = async (): Promise<Region[]> => {
   const { data } = await publicApi.get<CategoriesResponse>("/categories");
@@ -100,15 +90,18 @@ export const getLocations = async ({
   region,
   locationType,
   sort,
+  sortBy,
 }: GetLocationsParams): Promise<LocationsResponse> => {
   const locationTypes = locationType?.split(",").filter(Boolean);
+  const actualSort = sort || sortBy;
+
   const params = {
     page,
     limit,
     ...(search && { search }),
     ...(region && { region }),
     ...(locationTypes?.length && { locationType: locationTypes }),
-    ...(sort && { sortBy: sort }),
+    ...(actualSort && { sortBy: actualSort }),
   };
 
   const { data } = await publicApi.get<LocationsResponse>("/locations", {
