@@ -2,11 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { defaultReviews } from "@/data/defaultReviews";
-import type {
-  LocationDetails,
-  LocationOwner,
-} from "@/types/location";
+import type { LocationDetails, LocationOwner } from "@/types/location";
 
 import LocationInfoBlock from "@/components/LocationInfoBlock/LocationInfoBlock";
 import LocationGallery from "@/components/LocationGallery/LocationGallery";
@@ -53,16 +49,12 @@ export default function LocationDetailsPage({
 }: LocationDetailsPageProps) {
   const [reviews, setReviews] = useState<Feedback[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [reviewsError, setReviewsError] = useState<string | null>(
-    null,
-  );
+  const [reviewsError, setReviewsError] = useState<string | null>(null);
 
   const normalizedLocation: LocationDetails = {
     ...location,
-    locationType:
-      location.locationType || location.type || "Не вказано",
-    ownerId:
-      location.ownerId ?? location.owner ?? null,
+    locationType: location.locationType || location.type || "Не вказано",
+    ownerId: location.ownerId ?? location.owner ?? null,
   };
 
   useEffect(() => {
@@ -81,8 +73,9 @@ export default function LocationDetailsPage({
             },
           },
         );
+        console.log(data);
 
-        setReviews([...defaultReviews, ...(data.data ?? [])]);
+        setReviews([...(data.data ?? [])]);
       } catch (error) {
         console.error("Failed to load reviews:", error);
         setReviewsError("Не вдалося завантажити відгуки.");
@@ -96,10 +89,7 @@ export default function LocationDetailsPage({
 
   const averageRating =
     reviews.length > 0
-      ? reviews.reduce(
-          (sum, review) => sum + review.rate,
-          0,
-        ) / reviews.length
+      ? reviews.reduce((sum, review) => sum + review.rate, 0) / reviews.length
       : 0;
 
   return (
@@ -116,13 +106,10 @@ export default function LocationDetailsPage({
           </div>
 
           <div className={css.gallery}>
-           <LocationGallery
-  image={
-    normalizedLocation.image ??
-    "/images/placeholder.jpg"
-  }
-  name={normalizedLocation.name}
-/>
+            <LocationGallery
+              image={normalizedLocation.image ?? "/images/placeholder.jpg"}
+              name={normalizedLocation.name}
+            />
           </div>
         </div>
 
