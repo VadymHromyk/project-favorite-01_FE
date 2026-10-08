@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import ProfileInfo from "@/components/ProfileInfo/ProfileInfo";
 import ProfileClient from "./ProfilePage.client";
+import ProfileHeaderWrapper from "@/components/ProfileInfo/ProfileWrapper";
 import css from "./ProfilePage.module.css";
 import type { CurrentUserResponse, UserProfileResponse } from "@/types/profile";
 
@@ -43,7 +43,10 @@ const ProfilePage = async ({ params }: ProfilePageProps) => {
   let isOwnProfile = false;
 
   const cookieStore = await cookies();
-  const cookieHeader: string = cookieStore.toString();
+  const cookieHeader = cookieStore
+    .getAll()
+    .map((c) => `${c.name}=${c.value}`)
+    .join("; ");
 
   if (cookieHeader) {
     try {
@@ -62,7 +65,42 @@ const ProfilePage = async ({ params }: ProfilePageProps) => {
           await currentUserResponse.json();
         const currentUser = currentUserData.data;
 
-        isOwnProfile = currentUser.id === profileUser._id;
+        // Нормалізація та вилучення ID
+        const currentUserObj = currentUser as unknown as Record<
+          string,
+          unknown
+        >;
+        const rawCurrentId = String(
+          currentUserObj.id || currentUserObj._id || "",
+        ).trim();
+
+        const profileUserObj = profileUser as unknown as Record<
+          string,
+          unknown
+        >;
+        const rawPageUserId = String(
+          profileUserObj.id || profileUserObj._id || userId,
+        ).trim();
+        const rawParamUserId = String(userId).trim();
+
+        // Логування в термінал сервера для налагодження
+        console.log("=== PROFILE OWNER CHECK ===");
+        console.log("Current User ID (/api/users/me):", rawCurrentId);
+        console.log("Page User ID (profileUser):", rawPageUserId);
+        console.log("Param User ID (URL params):", rawParamUserId);
+
+        isOwnProfile = Boolean(
+          rawCurrentId &&
+          (rawCurrentId.toLowerCase() === rawPageUserId.toLowerCase() ||
+            rawCurrentId.toLowerCase() === rawParamUserId.toLowerCase()),
+        );
+
+        console.log("Is Own Profile Result:", isOwnProfile);
+      } else {
+        console.warn(
+          "Request to /api/users/me failed with status:",
+          currentUserResponse.status,
+        );
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -74,16 +112,23 @@ const ProfilePage = async ({ params }: ProfilePageProps) => {
         console.error("Невідома помилка під час перевірки користувача");
       }
     }
+  } else {
+    console.warn("No cookies found in server request context");
   }
+
+  const initialUserData = {
+    name: profileUser.name,
+    avatarUrl: profileUser.avatarUrl,
+    articlesAmount: profileUser.articlesAmount,
+  };
 
   return (
     <main>
       <section className={css.pageHeader}>
         <div className="container">
-          <ProfileInfo
-            avatar={profileUser.avatarUrl}
-            username={profileUser.name}
-            locationsCount={profileUser.articlesAmount}
+          <ProfileHeaderWrapper
+            initialUser={initialUserData}
+            isOwnProfile={isOwnProfile}
           />
         </div>
       </section>

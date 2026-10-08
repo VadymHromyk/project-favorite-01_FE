@@ -15,10 +15,14 @@ export const metadata: Metadata = {
   ),
   title: "RelaxMap",
   description: "App for finding new, beautiful places in Ukraine",
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   openGraph: {
     title: "RelaxMap",
     description: "App for finding new, beautiful places in Ukraine",
-    // url: "",
     images: [
       {
         url: "",
