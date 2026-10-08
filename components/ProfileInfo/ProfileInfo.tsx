@@ -97,10 +97,10 @@ export default function ProfileInfo({
 
   return (
     <>
-      <div className={css.profile}>
+      <div className={css.Header}>
         {avatarSrc ? (
           <Image
-            className={css.avatar}
+            className={css.Avatar}
             src={avatarSrc}
             alt={`Аватар користувача ${username}`}
             width={145}
@@ -109,21 +109,21 @@ export default function ProfileInfo({
             unoptimized
           />
         ) : (
-          <span className={css.avatarPlaceholder} aria-hidden="true">
+          <span className={css.AvatarFallback} aria-hidden="true">
             {username.charAt(0).toUpperCase()}
           </span>
         )}
 
-        <div className={css.avatarContent}>
-          <h1 className={css.username}>{username}</h1>
-          <p className={css.articlesCount}>Статей: {locationsCount}</p>
+        <div className={css.Info}>
+          <h1 className={css.Name}>{username}</h1>
+          <p className={css.Articles}>Статей: {locationsCount}</p>
         </div>
 
         {isOwnProfile && (
           <AppButton
             variant="secondary"
             onClick={handleOpenModal}
-            className={css.editBtn}
+            className={css.EditButton}
           >
             Редагувати профіль
           </AppButton>
@@ -131,73 +131,84 @@ export default function ProfileInfo({
       </div>
 
       {isModalOpen && (
-        <div className={css.modalBackdrop} onClick={handleCloseModal}>
+        <div className={css.ModalBackdrop} onClick={handleCloseModal}>
           <div
-            className={css.modalContent}
+            className={css.ModalContent}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className={css.modalHeader}>
-              <h2>Редагувати профіль</h2>
-              <button
-                type="button"
-                className={css.closeBtn}
-                onClick={handleCloseModal}
-                disabled={isLoading}
-              >
-                ✕
-              </button>
-            </div>
+            <button
+              type="button"
+              className={css.CloseBtn}
+              onClick={handleCloseModal}
+              disabled={isLoading}
+              aria-label="Закрити"
+            >
+              ✕
+            </button>
 
-            <form onSubmit={handleSubmit} className={css.modalForm}>
-              <div className={css.avatarPreviewContainer}>
-                <Image
-                  src={previewSrc || LOCAL_DEFAULT_AVATAR}
-                  alt="Прев'ю аватара"
-                  width={100}
-                  height={100}
-                  className={css.avatarPreview}
-                  unoptimized
-                />
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  style={{ display: "none" }}
-                />
-                <AppButton
-                  type="button"
-                  variant="secondary"
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={isLoading}
-                >
-                  Обрати фото з ПК
-                </AppButton>
+            <h2 className={css.ModalTitle}>Редагувати профіль</h2>
+
+            <form onSubmit={handleSubmit} className={css.ModalForm}>
+              <div className={css.AvatarFieldGroup}>
+                <label className={css.Label}>Аватар</label>
+                <div className={css.AvatarUploadRow}>
+                  <Image
+                    src={previewSrc || LOCAL_DEFAULT_AVATAR}
+                    alt="Прев'ю аватара"
+                    width={80}
+                    height={80}
+                    className={css.AvatarPreview}
+                    unoptimized
+                  />
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    style={{ display: "none" }}
+                  />
+                  <AppButton
+                    type="button"
+                    variant="secondary"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isLoading}
+                    className={css.UploadBtn}
+                  >
+                    Завантажити фото
+                  </AppButton>
+                </div>
               </div>
 
-              <div className={css.inputGroup}>
-                <label htmlFor="name">Ім&apos;я користувача</label>
+              <div className={css.InputGroup}>
+                <label htmlFor="name" className={css.Label}>
+                  Ім&apos;я
+                </label>
                 <input
                   id="name"
                   type="text"
-                  className={css.input}
+                  className={css.Input}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Введіть ваше ім'я"
+                  placeholder="Введіть нове ім'я"
                   required
                 />
               </div>
 
-              <div className={css.modalActions}>
+              <div className={css.ModalActions}>
                 <AppButton
                   type="button"
                   variant="secondary"
                   onClick={handleCloseModal}
                   disabled={isLoading}
+                  className={css.CancelBtn}
                 >
-                  Скасувати
+                  Відмінити
                 </AppButton>
-                <AppButton type="submit" disabled={isLoading}>
+                <AppButton
+                  type="submit"
+                  disabled={isLoading}
+                  className={css.SaveBtn}
+                >
                   {isLoading ? "Збереження..." : "Зберегти"}
                 </AppButton>
               </div>
