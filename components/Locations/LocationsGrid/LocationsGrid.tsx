@@ -5,8 +5,7 @@ import LocationCard from "@/components/Home/PopularLocationsBlock/LocationCard/L
 import { Location } from "@/types/profile";
 import { AppButton } from "@/components/Ui/Button/Button";
 import { useEffect, useRef } from "react";
-import { Oval } from "react-loader-spinner";
-// import Pagination from '@/components/Locations/Pagination/Pagination';
+import Loader from "@/components/Loader/Loader";
 
 interface LocationGridProps {
   locations: Location[];
@@ -42,20 +41,7 @@ export default function LocationGrid({
   }, [locations.length]);
 
   if (isLoading) {
-    return (
-      <div className={css.loader}>
-        <Oval
-          visible={true}
-          height="80"
-          width="80"
-          color="#CD5B45"
-          secondaryColor="#FAD7A0"
-          ariaLabel="oval-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-        />
-      </div>
-    );
+    return <Loader />;
   }
 
   if (error) {
@@ -75,20 +61,7 @@ export default function LocationGrid({
           </div>
         ))}
       </div>
-      {isFetchingNextPage && (
-        <div className={css.loader}>
-          <Oval
-            visible={true}
-            height="80"
-            width="80"
-            color="#CD5B45"
-            secondaryColor="#FAD7A0"
-            ariaLabel="oval-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-          />
-        </div>
-      )}
+      {isFetchingNextPage && <Loader />}
       {hasNextPage && (
         <AppButton
           className={css.searchButton}

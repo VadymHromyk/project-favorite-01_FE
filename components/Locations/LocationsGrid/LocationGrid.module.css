@@ -8,14 +8,6 @@
   min-width: 0;
 }
 
-.loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 40px 0;
-}
-
 .subtitle {
   /* font-family: "Montserrat", sans-serif;
   color: var(--color-neutral-dark); */

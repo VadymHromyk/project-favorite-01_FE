@@ -1,0 +1,12 @@
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 40px 0;
+}
+
+.fullHeight {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
