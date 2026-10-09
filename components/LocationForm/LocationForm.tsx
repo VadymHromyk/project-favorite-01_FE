@@ -9,6 +9,7 @@ import {
   getLocationValidationSchema,
   type LocationFormMode,
 } from "./validation";
+import { compressImageIfNeeded } from "./compressImage";
 import css from "./LocationForm.module.css";
 
 export interface LocationFormValues {
@@ -58,6 +59,8 @@ export default function LocationForm({
   const isSendingRef = useRef(false);
   // "saved" keeps the form locked after a successful save until navigation ends
   const [status, setStatus] = useState<"idle" | "sending" | "saved">("idle");
+  const [isProcessingImage, setIsProcessingImage] = useState(false);
+  const [imageProcessingError, setImageProcessingError] = useState<string | null>(null);
 
   useEffect(() => {
     return () => {
@@ -69,23 +72,33 @@ export default function LocationForm({
   const displayedImage = previewUrl ?? (mode === "edit" ? initialImageUrl : undefined);
   const text = BUTTON_TEXT[mode];
 
-  const handleFileChange = (
+  const handleFileChange = async (
     event: ChangeEvent<HTMLInputElement>,
     { setFieldValue, setFieldTouched }: FormikProps<FormValues>,
   ) => {
-    const file = event.currentTarget.files?.[0];
+    const selectedFile = event.currentTarget.files?.[0];
     // dialog cancelled: keep the previously selected file
-    if (!file) return;
+    if (!selectedFile) return;
 
-    const canPreview = ALLOWED_IMAGE_TYPES.includes(file.type) && file.size > 0;
-    setPreviewUrl(canPreview ? URL.createObjectURL(file) : null);
-    setFieldTouched("image", true, false);
-    setFieldValue("image", file);
+    setImageProcessingError(null);
+    setIsProcessingImage(true);
+    try {
+      const file = await compressImageIfNeeded(selectedFile);
+      const canPreview = ALLOWED_IMAGE_TYPES.includes(file.type) && file.size > 0;
+      setPreviewUrl(canPreview ? URL.createObjectURL(file) : null);
+      setFieldTouched("image", true, false);
+      setFieldValue("image", file);
+    } catch {
+      setImageProcessingError("Не вдалося обробити фото. Спробуйте інше зображення");
+    } finally {
+      setIsProcessingImage(false);
+    }
   };
 
   const handleReset = ({ resetForm }: FormikProps<FormValues>) => {
     resetForm();
     setPreviewUrl(null);
+    setImageProcessingError(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -121,7 +134,10 @@ export default function LocationForm({
         const isBusy = isSubmitting || status !== "idle";
         // create: errors are revealed on submit, so only an untouched form is blocked
         const isSubmitDisabled =
-          isBusy || !dirty || (mode === "edit" && !isValid);
+          isBusy ||
+          isProcessingImage ||
+          !dirty ||
+          (mode === "edit" && !isValid);
         const hasError = (field: keyof FormValues) => Boolean(touched[field] && errors[field]);
         const fieldClass = (field: keyof FormValues, base: string) =>
           hasError(field) ? `${base} ${css.fieldError}` : base;
@@ -132,7 +148,13 @@ export default function LocationForm({
               <label className={css.label} htmlFor="image">
                 Обкладинка статті
               </label>
-              <div className={fieldClass("image", css.preview)}>
+              <div
+                className={
+                  imageProcessingError
+                    ? `${css.preview} ${css.fieldError}`
+                    : fieldClass("image", css.preview)
+                }
+              >
                 {displayedImage ? (
                   <Image
                     src={displayedImage}
@@ -165,11 +187,15 @@ export default function LocationForm({
                 type="button"
                 className={css.uploadButton}
                 onClick={() => fileInputRef.current?.click()}
-                disabled={isBusy}
+                disabled={isBusy || isProcessingImage}
               >
-                Завантажити фото
+                {isProcessingImage ? "Обробка фото..." : "Завантажити фото"}
               </button>
-              <ErrorMessage name="image" component="p" className={css.errorText} />
+              {imageProcessingError ? (
+                <p className={css.errorText}>{imageProcessingError}</p>
+              ) : (
+                <ErrorMessage name="image" component="p" className={css.errorText} />
+              )}
             </div>
 
             <div className={css.group}>
@@ -265,7 +291,7 @@ export default function LocationForm({
                 type="button"
                 className={css.secondaryButton}
                 onClick={() => handleReset(formik)}
-                disabled={isBusy}
+                disabled={isBusy || isProcessingImage}
               >
                 {text.cancel}
               </button>

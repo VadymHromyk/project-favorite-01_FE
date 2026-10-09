@@ -2,22 +2,25 @@ import PopularLocationsBlock from "./PopularLocationsBlock";
 import { getAllLocations } from "@/utils/getAllLocations";
 import { getLocationTypes } from "@/lib/locationsApi";
 import { normalizeLocationsByType } from "@/utils/getLocationsWithNormalizedTypes";
+import { Location } from "@/types/profile";
 
 export default async function PopularSection() {
+  let locationsWithRating: Location[] = [];
+
   try {
     const [locations, locationTypes] = await Promise.all([
       getAllLocations(),
       getLocationTypes(),
     ]);
 
-    const normalizedLocations = normalizeLocationsByType(
+    locationsWithRating = normalizeLocationsByType(
       locations || [],
-      locationTypes || []
+      locationTypes || [],
     );
-
-    return <PopularLocationsBlock locations={normalizedLocations} />;
   } catch (error) {
     console.error("Помилка завантаження популярних локацій:", error);
-    return <PopularLocationsBlock locations={[]} />;
+    locationsWithRating = [];
   }
+
+  return <PopularLocationsBlock locations={locationsWithRating} />;
 }
