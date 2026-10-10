@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store";
 import ProfileInfo from "./ProfileInfo";
 
 interface ProfileWrapperProps {
+  userId: string;
   initialUser: {
     name: string;
     avatarUrl?: string;
@@ -18,44 +20,20 @@ const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "")
   .replace(/\/api$/, "");
 
 export default function ProfileWrapper({
+  userId,
   initialUser,
-  isOwnProfile: initialIsOwnProfile,
+  isOwnProfile: serverIsOwnProfile,
 }: ProfileWrapperProps) {
-  const [user, setUser] = useState(initialUser);
-  const [isOwn, setIsOwn] = useState<boolean>(initialIsOwnProfile);
+  const [profileUser, setProfileUser] = useState(initialUser);
+  const authUser = useAuthStore((state) => state.user);
+  const setAuthUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
 
-  useEffect(() => {
-    if (initialIsOwnProfile) return;
-
-    let isMounted = true;
-
-    const checkClientOwner = async () => {
-      try {
-        const endpoint = API_URL ? `${API_URL}/api/users/me` : "/api/users/me";
-        const res = await fetch(endpoint, { credentials: "include" });
-
-        if (res.ok) {
-          const meData = await res.json();
-          const meUser = meData.data || meData;
-
-          const meId = String(meUser?.id || meUser?._id || "").trim();
-
-          if (isMounted && (meId || meUser?.name === initialUser.name)) {
-            setIsOwn(true);
-          }
-        }
-      } catch (err) {
-        console.error("Client side owner check error:", err);
-      }
-    };
-
-    checkClientOwner();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [initialIsOwnProfile, initialUser.name]);
+  const authUserId = String(authUser?.id ?? authUser?._id ?? "").trim();
+  const isOwn =
+    serverIsOwnProfile ||
+    (authUserId !== "" &&
+      authUserId.toLowerCase() === String(userId).trim().toLowerCase());
 
   const handleUpdateProfile = async (formData: FormData) => {
     try {
@@ -76,11 +54,29 @@ export default function ProfileWrapper({
       const updatedUser = responseData.data || responseData;
 
       if (updatedUser) {
-        setUser({
-          name: updatedUser.name ?? user.name,
-          avatarUrl: updatedUser.avatarUrl ?? user.avatarUrl,
-          articlesAmount: updatedUser.articlesAmount ?? user.articlesAmount,
+        setProfileUser({
+          name: updatedUser.name ?? profileUser.name,
+          avatarUrl: updatedUser.avatarUrl ?? profileUser.avatarUrl,
+          articlesAmount:
+            updatedUser.articlesAmount ?? profileUser.articlesAmount,
         });
+      }
+
+      try {
+        const meRes = await fetch(endpoint, {
+          credentials: "include",
+          cache: "no-store",
+        });
+
+        if (meRes.ok) {
+          const meData = await meRes.json();
+          const meUser = meData.data || meData;
+          const currentUser = useAuthStore.getState().user;
+
+          setAuthUser({ ...currentUser, ...meUser });
+        }
+      } catch (err) {
+        console.error("Не вдалося оновити користувача в store:", err);
       }
 
       router.refresh();
@@ -92,9 +88,9 @@ export default function ProfileWrapper({
 
   return (
     <ProfileInfo
-      username={user.name}
-      avatar={user.avatarUrl}
-      locationsCount={user.articlesAmount}
+      username={profileUser.name}
+      avatar={profileUser.avatarUrl}
+      locationsCount={profileUser.articlesAmount}
       isOwnProfile={isOwn}
       onUpdateProfile={handleUpdateProfile}
     />
