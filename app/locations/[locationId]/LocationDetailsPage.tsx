@@ -73,7 +73,6 @@ export default function LocationDetailsPage({
             },
           },
         );
-        console.log(data);
 
         setReviews([...(data.data ?? [])]);
       } catch (error) {

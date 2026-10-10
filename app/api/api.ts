@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+
+export type ApiError = AxiosError<{ error: string }>;
 
 export const api = axios.create({
-  baseURL: "https://project-favorite-01-be.onrender.com/api",
-  withCredentials: true,
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
 });
