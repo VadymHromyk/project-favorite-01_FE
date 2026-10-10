@@ -6,7 +6,7 @@ import { IoClose } from "react-icons/io5";
 import toast from "react-hot-toast";
 import { AddReviewForm } from "../AddReviewForm/AddReviewForm";
 import { addFeedback } from "@/lib/feedbacks";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/lib/store/authStore";
 import styles from "./AddReviewModal.module.css";
 
 interface AddReviewModalProps {
@@ -67,6 +67,7 @@ export const AddReviewModal: React.FC<AddReviewModalProps> = ({
       toast.error("Не вдалося зберегти відгук. Перевірте авторизацію.");
     }
   };
+
   return (
     <div className={styles.modalOverlay} onClick={handleClose}>
       <div className={styles.reviewPopup} onClick={(e) => e.stopPropagation()}>

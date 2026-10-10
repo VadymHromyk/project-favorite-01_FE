@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { api } from "@/src/lib/api";
-import { useAuthStore } from "@/store";
+import { useAuthStore } from "@/lib/store/authStore";
 import styles from "./LoginForm.module.css";
 import { useRouter } from "next/navigation";
 
@@ -69,10 +69,7 @@ export default function LoginForm() {
       }
 
       const userId =
-        userObj?.id ||
-        userObj?._id ||
-        responseData?.id ||
-        responseData?._id;
+        userObj?.id || userObj?._id || responseData?.id || responseData?._id;
 
       if (userId && userId !== "undefined") {
         window.location.href = `/profile/${userId}`;
@@ -80,9 +77,7 @@ export default function LoginForm() {
         try {
           const meRes = await api.get("/users/me");
           const myId =
-            meRes.data?.data?.id ||
-            meRes.data?.data?._id ||
-            meRes.data?.id;
+            meRes.data?.data?.id || meRes.data?.data?._id || meRes.data?.id;
 
           if (myId) {
             window.location.href = `/profile/${myId}`;

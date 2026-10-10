@@ -4,30 +4,26 @@ import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import css from "./Profile.module.css";
-import type { User } from "@/types/auth";
+import type { User } from "@/types/user";
 import formatUserName from "@/utils/getShortUsernameHeader";
-import { api } from "@/src/lib/api";
-import { useAuthStore } from "@/store";
+import { useAuthStore } from "@/lib/store/authStore";
 import { ConfirmationModal } from "@/src/components/ConfirmationModal/ConfirmationModal";
+import { logout } from "@/lib/api/clientApi";
+import { useRouter } from "next/navigation";
 
 interface ProfileProps {
-  user: User | null;
   onNavigate?: () => void;
 }
 
 const LOCAL_DEFAULT_AVATAR = "/default-avatar.png";
 
-export default function Profile({ user, onNavigate }: ProfileProps) {
+export default function Profile({ onNavigate }: ProfileProps) {
   const [hasError, setHasError] = useState<boolean>(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
+  const { isLoggedIn, user } = useAuthStore();
+  const router = useRouter();
 
-  const clearAuth = useAuthStore((state) =>
-    'clearAuth' in state && typeof state.clearAuth === 'function'
-      ? state.clearAuth
-      : 'logout' in state && typeof state.logout === 'function'
-      ? state.logout
-      : undefined
-  );
+  const clearAuth = useAuthStore((state) => state.clearAuth);
 
   const isCustomAvatarValid =
     Boolean(user?.avatarUrl) && user?.avatarUrl?.trim() !== "";
@@ -47,7 +43,7 @@ export default function Profile({ user, onNavigate }: ProfileProps) {
 
   const handleLogout = async (): Promise<void> => {
     try {
-      await api.post("/auth/logout");
+      await logout();
     } catch (error) {
       console.error("Помилка під час виходу з сервера:", error);
     } finally {
@@ -58,7 +54,7 @@ export default function Profile({ user, onNavigate }: ProfileProps) {
       setIsLogoutModalOpen(false);
       onNavigate?.();
 
-      window.location.href = "/";
+      // router.push("/auth/login");
     }
   };
 

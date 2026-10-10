@@ -1,34 +1,33 @@
 "use client";
 
-// import { checkSession, getMe } from "@/lib/api/clientApi";
-// import { useAuthStore } from "@/lib/store/authStore";
-import { ReactNode, useEffect } from "react";
+import { checkSessionClient, getMeClient } from "@/lib/api/clientApi";
+import { useAuthStore } from "@/lib/store/authStore";
+import { ReactNode, useEffect, useRef } from "react";
 
 type AuthProviderProps = {
   children: ReactNode;
 };
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  // const setUser = useAuthStore((state) => state.setUser);
-  // const clearIsAuthenticated = useAuthStore(
-  //   (state) => state.clearIsAuthenticated,
-  // );
+  const setUser = useAuthStore((state) => state.setUser);
+  const clearIsAuthenticated = useAuthStore((state) => state.clearAuth);
+  const started = useRef(false);
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     // Перевіряємо сесію
-  //     const isAuthenticated = await checkSession();
-  //     if (isAuthenticated) {
-  //       // Якщо сесія валідна — отримуємо користувача
-  //       const user = await getMe();
-  //       if (user) setUser(user);
-  //     } else {
-  //       // Якщо сесія невалідна — чистимо стан
-  //       clearIsAuthenticated();
-  //     }
-  //   };
-  //   fetchUser();
-  // }, [setUser, clearIsAuthenticated]);
+  useEffect(() => {
+    if (started.current) return;
+    started.current = true;
+
+    const fetchUser = async () => {
+      const isAuthenticated = await checkSessionClient();
+      if (isAuthenticated) {
+        const user = await getMeClient();
+        if (user) setUser(user);
+      } else if (!useAuthStore.getState().isLoggedIn) {
+        clearIsAuthenticated();
+      }
+    };
+    fetchUser();
+  }, [setUser, clearIsAuthenticated]);
 
   return children;
 };
