@@ -25,13 +25,27 @@ export const AddReviewModal: React.FC<AddReviewModalProps> = ({
   }, [router]);
 
   useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
+
+  useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         handleClose();
       }
     };
+
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [handleClose]);
 
   const handleFormSubmit = async (values: {
@@ -39,6 +53,7 @@ export const AddReviewModal: React.FC<AddReviewModalProps> = ({
     description: string;
   }) => {
     const rawUser = user as unknown as Record<string, unknown> | null;
+
     const currentUserName =
       user?.name || (rawUser?.userName as string) || user?.email;
 
@@ -64,12 +79,17 @@ export const AddReviewModal: React.FC<AddReviewModalProps> = ({
       handleClose();
     } catch (error: unknown) {
       console.error("Помилка при створенні відгуку:", error);
+
       toast.error("Не вдалося зберегти відгук. Перевірте авторизацію.");
     }
   };
+
   return (
     <div className={styles.modalOverlay} onClick={handleClose}>
-      <div className={styles.reviewPopup} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={styles.reviewPopup}
+        onClick={(e) => e.stopPropagation()}
+      >
         <button
           className={styles.popupCloseBtn}
           onClick={handleClose}
@@ -77,8 +97,13 @@ export const AddReviewModal: React.FC<AddReviewModalProps> = ({
         >
           <IoClose size={24} />
         </button>
+
         <h2 className={styles.popupTitle}>Залишити відгук</h2>
-        <AddReviewForm onSubmit={handleFormSubmit} onCancel={handleClose} />
+
+        <AddReviewForm
+          onSubmit={handleFormSubmit}
+          onCancel={handleClose}
+        />
       </div>
     </div>
   );
