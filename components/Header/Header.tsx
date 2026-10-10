@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import css from "./Header.module.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuthStore } from "@/store";
 import Profile from "./Profile/Profile";
 import NavList from "./NavList/NavList";
@@ -19,21 +19,7 @@ export default function Header() {
   const isAuth = useAuthStore((state) => state.isLoggedIn);
   const user = useAuthStore((state) => state.user);
 
-  const checkAuth = useAuthStore((state) =>
-    "checkAuth" in state && typeof state.checkAuth === "function"
-      ? state.checkAuth
-      : "getMe" in state && typeof state.getMe === "function"
-        ? state.getMe
-        : undefined,
-  );
-
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (checkAuth) {
-      void checkAuth();
-    }
-  }, [checkAuth]);
 
   const handleMenuClick = (): void => {
     setIsMenuOpen((prev) => !prev);
@@ -61,7 +47,7 @@ export default function Header() {
               </div>
               {isAuth && (
                 <div className={css.profileWrapper}>
-                  <Profile user={user} />
+                  <Profile />
                 </div>
               )}
               <BurgerMenu
