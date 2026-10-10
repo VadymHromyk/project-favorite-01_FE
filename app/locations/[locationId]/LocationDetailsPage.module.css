@@ -1,90 +1,63 @@
 .page {
-    width: 100%;
-    background-color: #fff5ef;
-
+  width: 100%;
+  background-color: #fff5ef;
 }
 
 .container {
-    width: 100%;
-    margin: 0 auto;
-    padding: 32px 20px 64px;
+  box-sizing: border-box;
+  max-width: 375px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
 }
+
 .hero {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .gallery {
-    order: 1;
+  order: 1;
+  width: 100%;
+  min-width: 0;
 }
 
 .info {
-    order: 2;
-}
-.location {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
+  order: 2;
+  width: 100%;
+  min-width: 0;
+  margin-top: 16px;
 }
 
-.topBlock {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-width: 0;
-}
-
-.gallery {
-    order: 1;
-    width: 100%;
-    min-width: 0;
-}
-
-.info {
-    order: 2;
-    width: 100%;
-    min-width: 0;
-    margin-top: 16px;
-}
-
-.description {
-    width: 100%;
-    min-width: 0;
-    overflow-wrap: break-word;
-}
-
+/* Планшет: контент у контейнері фіксованої максимальної ширини по центру */
 @media screen and (min-width: 768px) {
-    .container {
-        padding: 48px 32px 64px;
-    }
+  .container {
+    max-width: 768px;
+    padding: 48px 32px 64px;
+  }
 }
 
+/* Десктоп */
 @media screen and (min-width: 1440px) {
-    .container {
-        max-width: 1440px;
-        margin: 0 auto;
-        padding: 48px 64px;
-    }
+  .container {
+    max-width: 1440px;
+    padding: 48px 64px;
+  }
 
-    .hero {
-        display: grid;
-        grid-template-columns: 1fr 592px;
-        min-height: 400px;
-        box-sizing: border-box;
-    }
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 592px;
+    min-height: 400px;
+  }
 
-    .info {
-        order: 1;
+  .info {
+    order: 1;
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+  }
 
-        display: flex;
-        align-items: center;
-
-        min-width: 0;
-    }
-
-    .gallery {
-        order: 2;
-        height: 100%;
-        min-width: 0;
-    }
+  .gallery {
+    order: 2;
+    height: 100%;
+  }
 }
