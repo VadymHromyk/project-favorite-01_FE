@@ -18,6 +18,9 @@ const privateApi = axios.create({
 const normalizeLocationDescription = (description: string) =>
   description.replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim();
 
+const compareUk = (a: string, b: string): number =>
+  a.localeCompare(b, "uk", { sensitivity: "base" });
+
 export interface CreateLocationPayload {
   name: string;
   locationType: string;
@@ -75,12 +78,14 @@ interface CategoriesResponse {
 
 export const getLocationTypes = async (): Promise<LocationType[]> => {
   const { data } = await publicApi.get<CategoriesResponse>("/categories");
-  return data.locationTypes;
+  return [...data.locationTypes].sort((a, b) => compareUk(a.type, b.type));
 };
 
 export const getRegions = async (): Promise<Region[]> => {
   const { data } = await publicApi.get<CategoriesResponse>("/categories");
-  return data.regions;
+  return [...data.regions].sort((a, b) =>
+    compareUk(a.region ?? a.name ?? a.slug, b.region ?? b.name ?? b.slug),
+  );
 };
 
 export const getLocations = async ({
