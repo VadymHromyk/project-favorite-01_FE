@@ -65,7 +65,6 @@ const ProfilePage = async ({ params }: ProfilePageProps) => {
           await currentUserResponse.json();
         const currentUser = currentUserData.data;
 
-        // Нормалізація та вилучення ID
         const currentUserObj = currentUser as unknown as Record<
           string,
           unknown
@@ -83,7 +82,6 @@ const ProfilePage = async ({ params }: ProfilePageProps) => {
         ).trim();
         const rawParamUserId = String(userId).trim();
 
-        // Логування в термінал сервера для налагодження
         console.log("=== PROFILE OWNER CHECK ===");
         console.log("Current User ID (/api/users/me):", rawCurrentId);
         console.log("Page User ID (profileUser):", rawPageUserId);
@@ -127,6 +125,7 @@ const ProfilePage = async ({ params }: ProfilePageProps) => {
       <section className={css.pageHeader}>
         <div className="container">
           <ProfileHeaderWrapper
+            userId={userId}
             initialUser={initialUserData}
             isOwnProfile={isOwnProfile}
           />

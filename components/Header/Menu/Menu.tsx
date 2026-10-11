@@ -30,7 +30,7 @@ export default function Menu({ user, isAuth, onNavigate }: MenuProps) {
             >
               Поділитись локацією
             </AppLink>
-            <Profile user={user} onNavigate={onNavigate} />
+            <Profile onNavigate={onNavigate} />
           </div>
         ) : (
           <div className={css.authNavWrapper}>

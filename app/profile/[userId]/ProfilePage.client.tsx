@@ -32,6 +32,9 @@ const ProfileClient = ({ userId, isOwnProfile }: ProfileClientProps) => {
 
     getNextPageParam: (lastPage) =>
       lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
+
+    retry: false,
+    refetchOnWindowFocus: false,
   });
 
   const locations = data?.pages.flatMap((page) => page.data ?? []) ?? [];
@@ -48,7 +51,9 @@ const ProfileClient = ({ userId, isOwnProfile }: ProfileClientProps) => {
       isLoading={isPending}
       isFetchingNextPage={isFetchingNextPage}
       onLoadMore={() => {
-        void fetchNextPage();
+        if (hasNextPage && !isFetchingNextPage && !error) {
+          void fetchNextPage();
+        }
       }}
       error={error}
     />
