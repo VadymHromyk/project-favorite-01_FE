@@ -1,5 +1,5 @@
+import { useAuthStore } from "@/lib/store/authStore";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { useAuthStore } from "@/store/authStore";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ||
