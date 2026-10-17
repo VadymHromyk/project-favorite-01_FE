@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ProfileInfo from "./ProfileInfo";
+import { getMeClient } from "@/lib/api/clientApi";
 
 interface ProfileWrapperProps {
   initialUser: {
@@ -33,13 +34,12 @@ export default function ProfileWrapper({
     const checkClientOwner = async () => {
       try {
         const endpoint = API_URL ? `${API_URL}/api/users/me` : "/api/users/me";
-        const res = await fetch(endpoint, { credentials: "include" });
+        const res = await getMeClient();
 
-        if (res.ok) {
-          const meData = await res.json();
-          const meUser = meData.data || meData;
+        if (res) {
+          const meUser = res;
 
-          const meId = String(meUser?.id || meUser?._id || "").trim();
+          const meId = String(meUser?.id || "").trim();
 
           if (isMounted && (meId || meUser?.name === initialUser.name)) {
             setIsOwn(true);

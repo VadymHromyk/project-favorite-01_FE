@@ -9,6 +9,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
 import css from "./RegistrationForm.module.css";
+import axios from "axios";
 
 export interface RegistrationFormValues {
   name: string;
@@ -80,18 +81,19 @@ export default function RegistrationForm() {
 
       if (user) {
         setUser(user);
-        router.replace(`/profile/${encodeURIComponent(user._id)}`);
+        router.replace(`/profile/${encodeURIComponent(user?.id ?? "")}`);
       } else {
         setErrorMessage("Invalid email or password");
       }
     } catch (error) {
-      setErrorMessage(
-        (error as ApiError).response?.data?.error ??
-          (error as ApiError).message ??
-          "Oops... some error",
-      );
-
-      toast.error(errorMessage ?? DEFAULT_ERROR_MESSAGE);
+      if (axios.isAxiosError(error)) {
+        const errorMessage =
+          error.response?.data?.message ||
+          "Помилка авторизації. Перевірте введені дані.";
+        toast.error(errorMessage);
+      } else {
+        toast.error("Щось пішло не так. Спробуйте пізніше.");
+      }
     }
   };
 

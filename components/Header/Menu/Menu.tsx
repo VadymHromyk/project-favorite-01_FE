@@ -15,7 +15,7 @@ export default function Menu({ user, isAuth, onNavigate }: MenuProps) {
   return (
     <div className={css.menuWrapper}>
       <div className={css.container}>
-        <NavList isAuth={isAuth} userId={user?._id} onNavigate={onNavigate} />
+        <NavList isAuth={isAuth} userId={user?.id} onNavigate={onNavigate} />
         {isAuth ? (
           <div className={css.profileWrapper}>
             <AppLink

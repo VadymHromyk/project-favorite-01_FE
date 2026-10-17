@@ -12,7 +12,7 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json(data);
+    return NextResponse.json(data.data);
   } catch (error) {
     return NextResponse.json(
       {

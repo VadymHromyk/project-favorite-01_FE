@@ -51,6 +51,12 @@
   gap: 10px;
 }
 
+.btnPrev svg,
+.btnNext svg {
+  fill: currentColor;
+  height: 100%;
+}
+
 .btnPrev,
 .btnNext {
   width: 48px;

@@ -15,9 +15,10 @@ export const checkServerSession = async () => {
         },
       },
     );
-    return Boolean(res.data?.message);
-  } catch {
-    return false;
+    return res;
+  } catch (error: any) {
+    if (!error?.response) throw error;
+    return;
   }
 };
 

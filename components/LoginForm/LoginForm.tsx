@@ -4,10 +4,11 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { api } from "@/src/lib/api";
+import { nextServer } from "@/lib/api/api";
 import { useAuthStore } from "@/lib/store/authStore";
 import styles from "./LoginForm.module.css";
 import { useRouter } from "next/navigation";
+import { login } from "@/lib/api/clientApi";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -56,26 +57,21 @@ export default function LoginForm() {
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void },
   ): Promise<void> => {
     try {
-      const response = await api.post<LoginResponseData>("/auth/login", values);
+      const userObj = await login(values);
 
       toast.success("Авторизація успішна!");
-
-      const responseData = response.data;
-      const userObj =
-        responseData?.data?.user || responseData?.user || responseData?.data;
 
       if (userObj && typeof setUser === "function") {
         setUser(userObj as unknown as Parameters<typeof setUser>[0]);
       }
 
-      const userId =
-        userObj?.id || userObj?._id || responseData?.id || responseData?._id;
+      const userId = userObj?.id;
 
       if (userId && userId !== "undefined") {
         window.location.href = `/profile/${userId}`;
       } else {
         try {
-          const meRes = await api.get("/users/me");
+          const meRes = await nextServer.get("/users/me");
           const myId =
             meRes.data?.data?.id || meRes.data?.data?._id || meRes.data?.id;
 

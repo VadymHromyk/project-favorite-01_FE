@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
-import { IoClose } from "react-icons/io5";
-import toast from "react-hot-toast";
-import { AddReviewForm } from "../AddReviewForm/AddReviewForm";
-import { addFeedback } from "@/lib/feedbacks";
+import { createFeedback } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useRouter } from "next/navigation";
+import React, { useCallback, useEffect } from "react";
+import toast from "react-hot-toast";
+import { IoClose } from "react-icons/io5";
+import { AddReviewForm } from "../AddReviewForm/AddReviewForm";
 import styles from "./AddReviewModal.module.css";
 
 interface AddReviewModalProps {
@@ -25,13 +25,27 @@ export const AddReviewModal: React.FC<AddReviewModalProps> = ({
   }, [router]);
 
   useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
+
+  useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         handleClose();
       }
     };
+
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [handleClose]);
 
   const handleFormSubmit = async (values: {
@@ -39,6 +53,7 @@ export const AddReviewModal: React.FC<AddReviewModalProps> = ({
     description: string;
   }) => {
     const rawUser = user as unknown as Record<string, unknown> | null;
+
     const currentUserName =
       user?.name || (rawUser?.userName as string) || user?.email;
 
@@ -50,7 +65,7 @@ export const AddReviewModal: React.FC<AddReviewModalProps> = ({
     }
 
     try {
-      await addFeedback({
+      await createFeedback({
         locationId,
         userName: currentUserName,
         rate: values.rate,
@@ -64,6 +79,7 @@ export const AddReviewModal: React.FC<AddReviewModalProps> = ({
       handleClose();
     } catch (error: unknown) {
       console.error("Помилка при створенні відгуку:", error);
+
       toast.error("Не вдалося зберегти відгук. Перевірте авторизацію.");
     }
   };
@@ -78,7 +94,9 @@ export const AddReviewModal: React.FC<AddReviewModalProps> = ({
         >
           <IoClose size={24} />
         </button>
+
         <h2 className={styles.popupTitle}>Залишити відгук</h2>
+
         <AddReviewForm onSubmit={handleFormSubmit} onCancel={handleClose} />
       </div>
     </div>

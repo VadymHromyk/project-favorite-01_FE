@@ -22,8 +22,8 @@ const ProfilePlaceholder = ({ isOwnProfile }: ProfilePlaceholderProps) => {
         <>
           <p className={css.text}>Цей користувач ще не ділився локаціями</p>
 
-          <Link className={css.link} href="/">
-            Назад до локацій
+          <Link className={css.link} href="/locations/add">
+            Поділитись локацією
           </Link>
         </>
       )}

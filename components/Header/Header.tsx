@@ -47,14 +47,14 @@ export default function Header() {
   useCloseOnMediaQuery("(min-width: 1440px)", closeMenu);
 
   return (
-    <div className={css.headerWrapper}>
+    <header className={css.headerWrapper}>
       <div className={css.container}>
         <Logo onClick={closeMenu} />
         <div className={css.navWrapper}>
           {pathname !== "/login" && pathname !== "/register" && (
             <>
               <div className={css.navListWrapper}>
-                <NavList isAuth={isAuth} userId={user?._id} />
+                <NavList isAuth={isAuth} userId={user?.id} />
               </div>
               <div className={css.authNavWrapper}>
                 <AuthNav isAuth={isAuth} onNavigate={closeMenu} />
@@ -75,6 +75,6 @@ export default function Header() {
           )}
         </div>
       </div>
-    </div>
+    </header>
   );
 }

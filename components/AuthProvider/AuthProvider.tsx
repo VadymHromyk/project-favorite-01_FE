@@ -18,12 +18,24 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     started.current = true;
 
     const fetchUser = async () => {
-      const isAuthenticated = await checkSessionClient();
-      if (isAuthenticated) {
+      // try {
+      //   const isAuthenticated = await checkSessionClient();
+      //   if (!isAuthenticated) {
+      //     clearIsAuthenticated();
+      //     return;
+      //   }
+      //   const user = await getMeClient();
+      //   if (user) setUser(user);
+      // } catch {
+      //   clearIsAuthenticated();
+      // }
+      try {
         const user = await getMeClient();
         if (user) setUser(user);
-      } else if (!useAuthStore.getState().isLoggedIn) {
-        clearIsAuthenticated();
+        else clearIsAuthenticated();
+      } catch (error: any) {
+        // розлогінюємо лише при 401, а не при мережевій помилці
+        if (error?.response?.status === 401) clearIsAuthenticated();
       }
     };
     fetchUser();
