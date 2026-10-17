@@ -1,42 +1,44 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isAxiosError } from "axios";
-import { api } from "../../api";
+import { api, ApiError } from "../../api";
+import { parseSetCookie } from "cookie";
+import { cookies } from "next/headers";
 
 export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
+  const body = await req.json();
 
+  try {
     const apiRes = await api.post("/auth/register", body);
 
-    const response = NextResponse.json(apiRes.data, { status: apiRes.status });
+    const cookieStore = await cookies();
 
-    const setCookieHeader = apiRes.headers["set-cookie"];
-    if (setCookieHeader) {
-      if (Array.isArray(setCookieHeader)) {
-        setCookieHeader.forEach((cookieStr) => {
-          response.headers.append("Set-Cookie", cookieStr);
-        });
-      } else {
-        response.headers.set("Set-Cookie", setCookieHeader);
+    const setCookie = apiRes.headers["set-cookie"];
+
+    if (setCookie) {
+      const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
+
+      for (const cookieStr of cookieArray) {
+        const parsed = parseSetCookie(cookieStr);
+
+        if (parsed.value) {
+          cookieStore.set(parsed.name, parsed.value, parsed);
+        }
       }
-    }
 
-    return response;
-  } catch (error: unknown) {
-    if (isAxiosError(error)) {
-      return NextResponse.json(
-        {
-          message:
-            error.response?.data?.message ??
-            "Не вдалося зареєструватися. Спробуйте ще раз",
-        },
-        { status: error.response?.status ?? 500 }
-      );
+      return NextResponse.json(apiRes.data);
     }
 
     return NextResponse.json(
-      { message: "Помилка сервера. Спробуйте пізніше" },
-      { status: 500 }
+      { error: "Не вдалося зареєструватися. Спробуйте ще раз" },
+      { status: 401 },
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error:
+          (error as ApiError).response?.data?.error ??
+          (error as ApiError).message,
+      },
+      { status: (error as ApiError).status },
     );
   }
 }

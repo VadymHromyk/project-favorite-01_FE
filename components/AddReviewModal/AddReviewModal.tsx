@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useCallback } from "react";
+import { createFeedback } from "@/lib/api/clientApi";
+import { useAuthStore } from "@/lib/store/authStore";
 import { useRouter } from "next/navigation";
-import { IoClose } from "react-icons/io5";
+import React, { useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
+import { IoClose } from "react-icons/io5";
 import { AddReviewForm } from "../AddReviewForm/AddReviewForm";
-import { addFeedback } from "@/lib/feedbacks";
-import { useAuthStore } from "@/store/authStore";
 import styles from "./AddReviewModal.module.css";
 
 interface AddReviewModalProps {
@@ -65,7 +65,7 @@ export const AddReviewModal: React.FC<AddReviewModalProps> = ({
     }
 
     try {
-      await addFeedback({
+      await createFeedback({
         locationId,
         userName: currentUserName,
         rate: values.rate,
@@ -86,10 +86,7 @@ export const AddReviewModal: React.FC<AddReviewModalProps> = ({
 
   return (
     <div className={styles.modalOverlay} onClick={handleClose}>
-      <div
-        className={styles.reviewPopup}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className={styles.reviewPopup} onClick={(e) => e.stopPropagation()}>
         <button
           className={styles.popupCloseBtn}
           onClick={handleClose}
@@ -100,10 +97,7 @@ export const AddReviewModal: React.FC<AddReviewModalProps> = ({
 
         <h2 className={styles.popupTitle}>Залишити відгук</h2>
 
-        <AddReviewForm
-          onSubmit={handleFormSubmit}
-          onCancel={handleClose}
-        />
+        <AddReviewForm onSubmit={handleFormSubmit} onCancel={handleClose} />
       </div>
     </div>
   );

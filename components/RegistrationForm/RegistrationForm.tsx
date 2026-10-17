@@ -1,13 +1,15 @@
 "use client";
 
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { useRouter } from "next/navigation";
-import { isAxiosError } from "axios";
-import toast from "react-hot-toast";
+import { ApiError } from "@/app/api/api";
 import { register } from "@/lib/api/clientApi";
-import { useAuthStore } from "@/store";
+import { useAuthStore } from "@/lib/store/authStore";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import * as Yup from "yup";
 import css from "./RegistrationForm.module.css";
+import axios from "axios";
 
 export interface RegistrationFormValues {
   name: string;
@@ -66,6 +68,7 @@ const DEFAULT_ERROR_MESSAGE = "Не вдалося зареєструватис�
 
 export default function RegistrationForm() {
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState("");
   const setUser = useAuthStore((state) => state.setUser);
 
   const handleSubmit = async (values: RegistrationFormValues) => {
@@ -76,14 +79,21 @@ export default function RegistrationForm() {
         password: values.password,
       });
 
-      setUser(user);
-      router.replace(`/profile/${encodeURIComponent(user._id)}`);
+      if (user) {
+        setUser(user);
+        router.replace(`/profile/${encodeURIComponent(user?.id ?? "")}`);
+      } else {
+        setErrorMessage("Invalid email or password");
+      }
     } catch (error) {
-      const message = isAxiosError(error)
-        ? error.response?.data?.message
-        : undefined;
-
-      toast.error(message ?? DEFAULT_ERROR_MESSAGE);
+      if (axios.isAxiosError(error)) {
+        const errorMessage =
+          error.response?.data?.message ||
+          "Помилка авторизації. Перевірте введені дані.";
+        toast.error(errorMessage);
+      } else {
+        toast.error("Щось пішло не так. Спробуйте пізніше.");
+      }
     }
   };
 

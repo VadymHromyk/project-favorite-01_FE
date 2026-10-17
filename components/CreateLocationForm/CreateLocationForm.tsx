@@ -3,9 +3,9 @@
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import LocationForm from "@/components/LocationForm/LocationForm";
-import { createLocation } from "@/lib/api/locations";
 import { getLocationErrorMessage } from "@/lib/api/errors";
 import type { LocationFormOptions } from "@/lib/api/serverCategories";
+import { createLocation } from "@/lib/api/clientApi";
 
 export default function CreateLocationForm({
   typeOptions,
@@ -16,6 +16,7 @@ export default function CreateLocationForm({
   const handleSubmit = async (formData: FormData) => {
     try {
       const { _id } = await createLocation(formData);
+
       router.push(`/locations/${_id}`);
       return true;
     } catch (error) {

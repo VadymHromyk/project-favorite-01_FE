@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/store";
 import ProfileInfo from "./ProfileInfo";
+import { getMeClient } from "@/lib/api/clientApi";
+import { useAuthStore } from "@/lib/store/authStore";
 
 interface ProfileWrapperProps {
   userId: string;
@@ -29,7 +30,7 @@ export default function ProfileWrapper({
   const setAuthUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
 
-  const authUserId = String(authUser?.id ?? authUser?._id ?? "").trim();
+  const authUserId = String(authUser?.id ?? "").trim();
   const isOwn =
     serverIsOwnProfile ||
     (authUserId !== "" &&

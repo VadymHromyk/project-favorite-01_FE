@@ -144,6 +144,7 @@ export const createLocation = async ({
   }
 
   try {
+    // const { data } = await privateApi.post<Location>("/locations", formData);
     const { data } = await privateApi.post<Location>("/locations", formData);
     return data;
   } catch (error) {

@@ -24,7 +24,11 @@ export const getAllLocations = cache(async (): Promise<Location[]> => {
       page += 1;
     } while (page <= totalPages);
 
-    return allLocations;
+    return [
+      ...new Map(
+        allLocations.map((location) => [location._id, location]),
+      ).values(),
+    ];
   } catch (error) {
     console.error("Помилка завантаження всіх локацій:", error);
     return allLocations;

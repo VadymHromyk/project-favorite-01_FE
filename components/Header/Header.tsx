@@ -2,8 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import css from "./Header.module.css";
-import { useState } from "react";
-import { useAuthStore } from "@/store";
+import { useState, useEffect } from "react";
+import { useAuthStore } from "@/lib/store/authStore";
 import Profile from "./Profile/Profile";
 import NavList from "./NavList/NavList";
 import AuthNav from "./AuthNav/AuthNav";
@@ -40,7 +40,7 @@ export default function Header() {
           {pathname !== "/login" && pathname !== "/register" && (
             <>
               <div className={css.navListWrapper}>
-                <NavList isAuth={isAuth} userId={user?.id ?? user?._id} />
+                <NavList isAuth={isAuth} userId={user?.id} />
               </div>
               <div className={css.authNavWrapper}>
                 <AuthNav isAuth={isAuth} onNavigate={closeMenu} />

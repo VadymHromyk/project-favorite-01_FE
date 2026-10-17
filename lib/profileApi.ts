@@ -1,5 +1,5 @@
-import { nextServer } from "@/lib/api/api";
 import type { UserLocationsResponse } from "@/types/profile";
+import { backendApi } from "./api/api";
 
 interface GetUserLocationsParams {
   userId: string;
@@ -12,7 +12,7 @@ export const getUserLocations = async ({
   page = 1,
   limit = 6,
 }: GetUserLocationsParams): Promise<UserLocationsResponse> => {
-  const { data } = await nextServer.get<UserLocationsResponse>(
+  const { data } = await backendApi.get<UserLocationsResponse>(
     `/users/${encodeURIComponent(userId)}/locations`,
     {
       params: {

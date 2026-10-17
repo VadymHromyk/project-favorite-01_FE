@@ -12,24 +12,26 @@ interface NavListProps {
 export default function NavList({ isAuth, userId, onNavigate }: NavListProps) {
   return (
     <ul className={css.navList}>
-      <li className={css.navItem}>
-        <Link
-          href="/"
-          onClick={onNavigate}
-          aria-label="Перейти на головну сторінку"
-        >
-          Головна
-        </Link>
-      </li>
-      <li className={css.navItem}>
-        <Link
-          href="/locations"
-          onClick={onNavigate}
-          aria-label="Перейти до місць відпочинку"
-        >
-          Місця відпочинку
-        </Link>
-      </li>
+      <>
+        <li className={css.navItem}>
+          <Link
+            href="/"
+            onClick={onNavigate}
+            aria-label="Перейти на головну сторінку"
+          >
+            Головна
+          </Link>
+        </li>
+        <li className={css.navItem}>
+          <Link
+            href="/locations"
+            onClick={onNavigate}
+            aria-label="Перейти до місць відпочинку"
+          >
+            Місця відпочинку
+          </Link>
+        </li>
+      </>
       {isAuth && userId && (
         <li className={css.navItem}>
           <Link

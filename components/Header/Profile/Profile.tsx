@@ -4,10 +4,12 @@ import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import css from "./Profile.module.css";
+import type { User } from "@/types/user";
 import formatUserName from "@/utils/getShortUsernameHeader";
-import { api } from "@/src/lib/api";
-import { useAuthStore } from "@/store";
+import { useAuthStore } from "@/lib/store/authStore";
 import { ConfirmationModal } from "@/src/components/ConfirmationModal/ConfirmationModal";
+import { logout } from "@/lib/api/clientApi";
+import { useRouter } from "next/navigation";
 
 interface ProfileProps {
   onNavigate?: () => void;
@@ -21,6 +23,7 @@ export default function Profile({ onNavigate }: ProfileProps) {
 
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
+  const router = useRouter();
 
   const avatarUrl = user?.avatarUrl?.trim() || null;
   const avatarSrc =
@@ -36,7 +39,7 @@ export default function Profile({ onNavigate }: ProfileProps) {
 
   const handleLogout = async (): Promise<void> => {
     try {
-      await api.post("/auth/logout");
+      await logout();
     } catch (error) {
       console.error("Помилка під час виходу з сервера:", error);
     } finally {
@@ -45,7 +48,7 @@ export default function Profile({ onNavigate }: ProfileProps) {
       setIsLogoutModalOpen(false);
       onNavigate?.();
 
-      window.location.href = "/";
+      // router.push("/auth/login");
     }
   };
 

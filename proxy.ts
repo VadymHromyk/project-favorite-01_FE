@@ -3,8 +3,28 @@ import { NextRequest, NextResponse } from "next/server";
 import { checkServerSession } from "@/lib/api/serverApi";
 import { parseSetCookie } from "cookie";
 
-const privateRoutes = ["/auth/logout", "/auth/refresh"];
+const privateRoutes = ["/auth/logout", "/auth/refresh", "/users/me"];
 const publicRoutes = ["/auth/login", "/auth/register"];
+
+// "/auth/logout",
+//     "/auth/refresh",
+//     "/auth/login",
+//     "/auth/register",
+//     "/profile/:path*",
+//     "/users/:path*",
+//     "/locations/:path*",
+//     "/feedbacks",
+
+type NewCookie = {
+  name: string;
+  value: string;
+  options: {
+    path: string;
+    expires?: Date;
+    maxAge?: number;
+    httpOnly?: boolean;
+  };
+};
 
 export async function proxy(request: NextRequest) {
   const cookieStore = await cookies();
@@ -25,8 +45,16 @@ export async function proxy(request: NextRequest) {
     if (refreshToken) {
       // Якщо accessToken відсутній, але є refreshToken — потрібно перевірити сесію навіть для публічного маршруту,
       // адже сесія може залишатися активною, і тоді потрібно заборонити доступ до публічного маршруту.
-      const data = await checkServerSession();
-      const setCookie = data.headers["set-cookie"];
+
+      let data;
+      try {
+        data = await checkServerSession();
+      } catch {
+        // бекенд недоступний (таймаут): не розлогінюємо, пропускаємо запит
+        return NextResponse.next();
+      }
+
+      const setCookie = data?.headers["set-cookie"];
 
       if (setCookie) {
         const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
@@ -48,13 +76,12 @@ export async function proxy(request: NextRequest) {
           });
         }
         // для приватного маршруту — дозволяємо доступ
-        if (isPrivateRoute) {
-          return NextResponse.next({
-            headers: {
-              Cookie: cookieStore.toString(),
-            },
-          });
-        }
+
+        return NextResponse.next({
+          headers: {
+            Cookie: cookieStore.toString(),
+          },
+        });
       }
     }
 
@@ -66,7 +93,7 @@ export async function proxy(request: NextRequest) {
 
     // приватний маршрут — редірект на сторінку входу
     if (isPrivateRoute) {
-      return NextResponse.redirect(new URL("/sign-in", request.url));
+      return NextResponse.redirect(new URL("/auth/login", request.url));
     }
   }
 
@@ -80,8 +107,19 @@ export async function proxy(request: NextRequest) {
   if (isPrivateRoute) {
     return NextResponse.next();
   }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/auth/logout", "/auth/refresh", "/auth/login", "/auth/register"],
+  matcher: [
+    "/auth/logout",
+    "/auth/refresh",
+    "/auth/login",
+    "/auth/register",
+    "/profile/:path*",
+    "/users/:path*",
+    "/locations/:path*",
+    "/feedbacks",
+  ],
 };

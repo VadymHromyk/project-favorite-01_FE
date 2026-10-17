@@ -30,40 +30,43 @@ export default function PopularLocationsBlock({
             Всі локації
           </AppLink>
         </div>
-        <Swiper
-          modules={[Navigation]}
-          navigation={{
-            prevEl: `.${css.btnPrev}`,
-            nextEl: `.${css.btnNext}`,
-          }}
-          breakpoints={{
-            320: {
-              slidesPerView: 1,
-            },
-            375: {
-              slidesPerView: 1,
-            },
-            768: {
-              slidesPerView: 2,
-              spaceBetween: 24,
-            },
-            1440: {
-              slidesPerView: 3,
-              spaceBetween: 24,
-            },
-          }}
-          className={css.swiper}
-        >
-          {locations.length === 0 ? (
-            <p className={css.noLocations}>Немає популярних локацій</p>
-          ) : (
-            locations.map((location) => (
-              <SwiperSlide key={location._id} className={css.swiperSlide}>
+        {locations.length === 0 ? (
+          <p className={css.noLocations}>Немає популярних локацій</p>
+        ) : (
+          <Swiper
+            modules={[Navigation]}
+            navigation={{
+              prevEl: `.${css.btnPrev}`,
+              nextEl: `.${css.btnNext}`,
+            }}
+            breakpoints={{
+              320: {
+                slidesPerView: 1,
+              },
+              375: {
+                slidesPerView: 1,
+              },
+              768: {
+                slidesPerView: 2,
+                spaceBetween: 24,
+              },
+              1440: {
+                slidesPerView: 3,
+                spaceBetween: 24,
+              },
+            }}
+            className={css.swiper}
+          >
+            {locations.map((location) => (
+              <SwiperSlide
+                key={`popular-${location._id}`}
+                className={css.swiperSlide}
+              >
                 <LocationCard location={location} />
               </SwiperSlide>
-            ))
-          )}
-        </Swiper>
+            ))}
+          </Swiper>
+        )}
 
         <div className={css.navigation}>
           <AppButton

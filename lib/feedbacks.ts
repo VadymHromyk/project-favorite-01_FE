@@ -3,7 +3,8 @@ import { Feedback, FeedbacksResponse } from "@/types/feedbacks";
 import type { Location } from "@/types/profile";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://project-favorite-01-be.onrender.com";
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://project-favorite-01-be.onrender.com";
 
 const publicApi = axios.create({
   baseURL: API_BASE_URL,
@@ -81,12 +82,4 @@ export async function getAllFeedbacksSorted(
     const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
     return dateB - dateA;
   });
-}
-
-export async function addFeedback(
-  payload: AddFeedbackPayload,
-): Promise<Feedback> {
-  const { data } = await privateApi.post<Feedback>("/feedbacks", payload);
-
-  return data;
 }
