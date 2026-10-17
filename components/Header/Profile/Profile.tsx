@@ -18,20 +18,16 @@ interface ProfileProps {
 const LOCAL_DEFAULT_AVATAR = "/default-avatar.png";
 
 export default function Profile({ onNavigate }: ProfileProps) {
-  const [hasError, setHasError] = useState<boolean>(false);
-  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
-  const { isLoggedIn, user } = useAuthStore();
-  const router = useRouter();
-
+  const user = useAuthStore((state) => state.user);
   const clearAuth = useAuthStore((state) => state.clearAuth);
 
-  const isCustomAvatarValid =
-    Boolean(user?.avatarUrl) && user?.avatarUrl?.trim() !== "";
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
+  const router = useRouter();
 
+  const avatarUrl = user?.avatarUrl?.trim() || null;
   const avatarSrc =
-    !hasError && isCustomAvatarValid
-      ? (user?.avatarUrl as string)
-      : LOCAL_DEFAULT_AVATAR;
+    avatarUrl && avatarUrl !== failedSrc ? avatarUrl : LOCAL_DEFAULT_AVATAR;
 
   const openLogoutModal = (): void => {
     setIsLogoutModalOpen(true);
@@ -47,9 +43,7 @@ export default function Profile({ onNavigate }: ProfileProps) {
     } catch (error) {
       console.error("Помилка під час виходу з сервера:", error);
     } finally {
-      if (typeof clearAuth === "function") {
-        clearAuth();
-      }
+      clearAuth();
 
       setIsLogoutModalOpen(false);
       onNavigate?.();
@@ -62,7 +56,7 @@ export default function Profile({ onNavigate }: ProfileProps) {
     <div className={css.profileWrapper}>
       <div className={css.editButton}>
         <Image
-          key={user?.avatarUrl || "default"}
+          key={avatarSrc}
           className={css.profileImage}
           src={avatarSrc}
           alt="Profile image"
@@ -70,7 +64,9 @@ export default function Profile({ onNavigate }: ProfileProps) {
           height={32}
           unoptimized
           loading="eager"
-          onError={() => setHasError(true)}
+          onError={() => {
+            if (avatarUrl) setFailedSrc(avatarUrl);
+          }}
         />
         <span className={css.profileName}>{formatUserName(user?.name)}</span>
       </div>

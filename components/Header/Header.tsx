@@ -19,21 +19,7 @@ export default function Header() {
   const isAuth = useAuthStore((state) => state.isLoggedIn);
   const user = useAuthStore((state) => state.user);
 
-  const checkAuth = useAuthStore((state) =>
-    "checkAuth" in state && typeof state.checkAuth === "function"
-      ? state.checkAuth
-      : "getMe" in state && typeof state.getMe === "function"
-        ? state.getMe
-        : undefined,
-  );
-
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (checkAuth) {
-      void checkAuth();
-    }
-  }, [checkAuth]);
 
   const handleMenuClick = (): void => {
     setIsMenuOpen((prev) => !prev);
