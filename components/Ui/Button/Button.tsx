@@ -43,6 +43,7 @@ export const AppLink = ({
 
   return (
     <Link
+      prefetch={false}
       href={disabled ? "" : href}
       className={rootClassName}
       target={target}
