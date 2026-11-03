@@ -3,22 +3,18 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ProfileInfo from "./ProfileInfo";
-import { getMeClient } from "@/lib/api/clientApi";
+import { getMeClient, updateMeClient } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 
 interface ProfileWrapperProps {
   userId: string;
-  initialUser: {
-    name: string;
+  initialUser?: {
+    name?: string;
     avatarUrl?: string;
     articlesAmount?: number;
   };
   isOwnProfile: boolean;
 }
-
-const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "")
-  .replace(/\/+$/, "")
-  .replace(/\/api$/, "");
 
 export default function ProfileWrapper({
   userId,
@@ -38,40 +34,22 @@ export default function ProfileWrapper({
 
   const handleUpdateProfile = async (formData: FormData) => {
     try {
-      const endpoint = API_URL ? `${API_URL}/api/users/me` : "/api/users/me";
+      const updatedUser = await updateMeClient(formData);
 
-      const res = await fetch(endpoint, {
-        method: "PATCH",
-        body: formData,
-        credentials: "include",
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || "Помилка при оновленні профілю");
+      if (!updatedUser) {
+        throw new Error("Помилка при оновленні профілю");
       }
-
-      const responseData = await res.json();
-      const updatedUser = responseData.data || responseData;
 
       if (updatedUser) {
         setProfileUser({
-          name: updatedUser.name ?? profileUser.name,
-          avatarUrl: updatedUser.avatarUrl ?? profileUser.avatarUrl,
-          articlesAmount:
-            updatedUser.articlesAmount ?? profileUser.articlesAmount,
+          name: updatedUser.name ?? profileUser?.name ?? "",
+          avatarUrl: updatedUser.avatarUrl ?? profileUser?.avatarUrl ?? "",
         });
       }
 
       try {
-        const meRes = await fetch(endpoint, {
-          credentials: "include",
-          cache: "no-store",
-        });
-
-        if (meRes.ok) {
-          const meData = await meRes.json();
-          const meUser = meData.data || meData;
+        const meUser = await getMeClient();
+        if (meUser) {
           const currentUser = useAuthStore.getState().user;
 
           setAuthUser({ ...currentUser, ...meUser });
@@ -89,9 +67,9 @@ export default function ProfileWrapper({
 
   return (
     <ProfileInfo
-      username={profileUser.name}
-      avatar={profileUser.avatarUrl}
-      locationsCount={profileUser.articlesAmount}
+      username={profileUser?.name}
+      avatar={profileUser?.avatarUrl}
+      locationsCount={profileUser?.articlesAmount}
       isOwnProfile={isOwn}
       onUpdateProfile={handleUpdateProfile}
     />

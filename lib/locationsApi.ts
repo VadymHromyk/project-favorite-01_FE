@@ -1,6 +1,5 @@
 import axios from "axios";
-import type { Location } from "@/types/profile";
-import type { LocationDetails } from "@/types/location";
+import type { Location } from "@/types/location";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ||
@@ -179,11 +178,9 @@ export const getLocationById = async (id: string): Promise<Location> => {
 
 export const getLocationDetailsById = async (
   locationId: string,
-): Promise<LocationDetails> => {
+): Promise<Location> => {
   try {
-    const { data } = await publicApi.get<LocationDetails>(
-      `/locations/${locationId}`,
-    );
+    const { data } = await publicApi.get<Location>(`/locations/${locationId}`);
     return data;
   } catch (error) {
     throw new Error(

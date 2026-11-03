@@ -1,10 +1,13 @@
-import { Feedback } from "@/types/feedbacks";
-import { Location } from "@/types/profile";
+import { Feedback, FeedbackRequestPayload } from "@/types/feedbacks";
 import type { User } from "@/types/user";
-import { AddFeedbackPayload } from "../feedbacks";
 import { nextServer } from "./api";
 import { useAuthStore } from "@/lib/store/authStore";
 import toast from "react-hot-toast";
+import {
+  GetUserLocationsParams,
+  Location,
+  UserLocationsResponse,
+} from "@/types/location";
 
 export interface RegisterRequest {
   name: string;
@@ -49,8 +52,14 @@ export const getMeClient = async (): Promise<User> => {
   return res.data;
 };
 
+export const updateMeClient = async (formData: FormData): Promise<User> => {
+  const res = await nextServer.patch<User>("/users/me", formData);
+
+  return res.data;
+};
+
 export const createFeedback = async (
-  payload: AddFeedbackPayload,
+  payload: FeedbackRequestPayload,
 ): Promise<Feedback> => {
   const { data } = await nextServer.post<Feedback>("/feedbacks", payload);
 
@@ -62,6 +71,26 @@ export const createLocation = async (payload: FormData): Promise<Location> => {
 
   return data;
 };
+
+export const getUserLocationsClient = async ({
+  userId,
+  page = 1,
+  limit = 6,
+}: GetUserLocationsParams): Promise<UserLocationsResponse> => {
+  const res = await nextServer.get<UserLocationsResponse>(
+    `/users/${encodeURIComponent(userId)}/locations`,
+    {
+      params: {
+        page,
+        limit,
+      },
+    },
+  );
+
+  return res.data;
+};
+
+/* ------------------------ Interceptor ------------------------ */
 
 let refreshing: Promise<boolean> | null = null;
 

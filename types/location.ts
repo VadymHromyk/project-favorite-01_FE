@@ -18,27 +18,73 @@ export interface LocationTypeInfo {
   shortDescription?: string;
 }
 
-export interface LocationDetails {
+export interface Location {
   _id: string;
   name: string;
+  locationType: string;
+  region: string;
   image?: string | null;
   description?: string;
-  region: string;
-  locationType: string;
-  
+
   coordinates?: {
     lat: number;
     lon: number;
   } | null;
 
+  rate?: number;
+  feedbacksId?: string[];
   regionInfo?: RegionInfo;
   locationTypeInfo?: LocationTypeInfo;
 
-  latitude?: number;
-  longitude?: number;
-
-  rate?: number;
   ownerId?: LocationOwner | string | null;
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface LocationsResponse {
+  page: number;
+  perPage: number;
+  totalLocations: number;
+  totalPages: number;
+  locations: Location[];
+}
+
+export interface GetUserLocationsParams {
+  userId: string;
+  page?: number;
+  limit?: number;
+}
+
+export interface UserLocationsResponse {
+  data: Location[];
+  page: number;
+  limit: number;
+  totalItems: number;
+  totalPages: number;
+}
+
+// export interface LocationsResponse {
+//   page: number;
+//   perPage: number;
+//   totalLocations: number;
+//   totalPages: number;
+//   locations: Location[];
+// }
+
+// export interface Location {
+//   _id: string;
+//   name: string;
+//   locationType: string;
+//   region: string;
+//   image: string;
+//   description?: string;
+//   coordinates?: {
+//     lat: number;
+//     lon: number;
+//   };
+//   rate?: number;
+//   rating?: number;
+//   feedbacksId?: string[];
+//   ownerId?: string;
+//   createdAt: string;
+// }

@@ -6,7 +6,7 @@ import { AppButton } from "@/components/Ui/Button/Button";
 import css from "./ProfileInfo.module.css";
 
 interface ProfileInfoProps {
-  username: string;
+  username?: string;
   avatar?: string;
   locationsCount?: number;
   isOwnProfile?: boolean;
@@ -16,14 +16,14 @@ interface ProfileInfoProps {
 const LOCAL_DEFAULT_AVATAR = "/default-avatar.png";
 
 export default function ProfileInfo({
-  username,
+  username = "Undefined",
   avatar,
-  locationsCount = 0,
+  locationsCount = -1,
   isOwnProfile = true,
   onUpdateProfile,
 }: ProfileInfoProps) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [name, setName] = useState<string>(username);
+  const [name, setName] = useState<string | undefined>(username);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewSrc, setPreviewSrc] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -71,7 +71,7 @@ export default function ProfileInfo({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim()) return;
+    if (!name) return;
 
     try {
       setIsLoading(true);
@@ -110,7 +110,7 @@ export default function ProfileInfo({
           />
         ) : (
           <span className={css.AvatarFallback} aria-hidden="true">
-            {username.charAt(0).toUpperCase()}
+            {username?.charAt(0).toUpperCase()}
           </span>
         )}
 

@@ -7,7 +7,7 @@ import css from "./Profile.module.css";
 import type { User } from "@/types/user";
 import formatUserName from "@/utils/getShortUsernameHeader";
 import { useAuthStore } from "@/lib/store/authStore";
-import { ConfirmationModal } from "@/src/components/ConfirmationModal/ConfirmationModal";
+import { ConfirmationModal } from "@/components/ConfirmationModal/ConfirmationModal";
 import { logout } from "@/lib/api/clientApi";
 import { useRouter } from "next/navigation";
 

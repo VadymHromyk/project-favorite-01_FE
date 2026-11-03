@@ -3,4 +3,11 @@ export interface User {
   name: string;
   email: string;
   avatarUrl?: string;
+  articlesAmount?: number;
+}
+
+export interface UserProfileResponse {
+  status: number;
+  message: string;
+  data: User;
 }

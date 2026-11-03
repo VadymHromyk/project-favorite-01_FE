@@ -7,7 +7,7 @@ import AuthProvider from "@/components/AuthProvider/AuthProvider";
 import Header from "../components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
 import { Toaster } from "react-hot-toast";
-import { AuthPromptModal } from "@/src/components/AuthPromptModal/AuthPromptModal";
+import { AuthPromptModal } from "@/components/AuthPromptModal/AuthPromptModal";
 
 export const metadata: Metadata = {
   metadataBase: new URL(

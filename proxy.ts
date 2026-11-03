@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { checkServerSession } from "@/lib/api/serverApi";
+import { checkSessionServer } from "@/lib/api/serverApi";
 import { parseSetCookie } from "cookie";
 
 const privateRoutes = ["/auth/logout", "/auth/refresh", "/users/me"];
@@ -48,7 +48,7 @@ export async function proxy(request: NextRequest) {
 
       let data;
       try {
-        data = await checkServerSession();
+        data = await checkSessionServer();
       } catch {
         // бекенд недоступний (таймаут): не розлогінюємо, пропускаємо запит
         return NextResponse.next();

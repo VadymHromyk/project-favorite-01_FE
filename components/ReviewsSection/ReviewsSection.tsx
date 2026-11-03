@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Feedback } from "@/app/locations/[locationId]/LocationDetailsPage";
 import { useAuthStore } from "@/lib/store/authStore";
-import { useAuthModalStore } from "@/src/store/useAuthModalStore";
 import { AppButton } from "@/components/Ui/Button/Button";
 import { Icon } from "@/components/Ui/Icon/Icon";
 import css from "./ReviewsSection.module.css";
+import { useAuthModalStore } from "@/lib/store/useAuthModalStore";
 
 interface ReviewsSectionProps {
   locationId: string;

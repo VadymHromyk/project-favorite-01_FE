@@ -3,7 +3,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import LocationsGrid from "@/components/Locations/LocationsGrid/LocationsGrid";
 import ProfilePlaceholder from "@/components/ProfilePlaceholder/ProfilePlaceholder";
-import { getUserLocations } from "@/lib/profileApi";
+import { getUserLocationsClient } from "@/lib/api/clientApi";
 
 interface ProfileClientProps {
   userId: string;
@@ -22,7 +22,7 @@ const ProfileClient = ({ userId, isOwnProfile }: ProfileClientProps) => {
     queryKey: ["profileLocations", userId],
 
     queryFn: ({ pageParam }) =>
-      getUserLocations({
+      getUserLocationsClient({
         userId,
         page: pageParam,
         limit: 6,
@@ -37,7 +37,7 @@ const ProfileClient = ({ userId, isOwnProfile }: ProfileClientProps) => {
     refetchOnWindowFocus: false,
   });
 
-  const locations = data?.pages.flatMap((page) => page.data ?? []) ?? [];
+  const locations = data?.pages.flatMap((page) => page ?? []) ?? [];
 
   if (!isPending && !error && locations.length === 0) {
     return <ProfilePlaceholder isOwnProfile={isOwnProfile} />;
