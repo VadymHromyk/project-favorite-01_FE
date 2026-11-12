@@ -1,10 +1,10 @@
 import Link from "next/link";
-import type { LocationDetails } from "@/types/location";
+import type { Location } from "@/types/location";
 
 import css from "./LocationInfoBlock.module.css";
 
 interface LocationInfoBlockProps {
-  location: LocationDetails;
+  location: Location;
   rating: number;
   regionName: string;
   locationTypeName: string;
@@ -17,8 +17,7 @@ export default function LocationInfoBlock({
   locationTypeName,
 }: LocationInfoBlockProps) {
   const owner =
-    typeof location.ownerId === "object" &&
-    location.ownerId !== null
+    typeof location.ownerId === "object" && location.ownerId !== null
       ? location.ownerId
       : null;
 
@@ -35,31 +34,24 @@ export default function LocationInfoBlock({
           {"☆".repeat(5 - roundedRating)}
         </span>
 
-        <span className={css.ratingValue}>
-          {rating.toFixed(1)}
-        </span>
+        <span className={css.ratingValue}>{rating.toFixed(1)}</span>
       </div>
 
       <h1 className={css.title}>{location.name}</h1>
 
       <div className={css.details}>
         <p className={css.detail}>
-          <span className={css.label}>Регіон:</span>{" "}
-          {regionName}
+          <span className={css.label}>Регіон:</span> {regionName}
         </p>
 
         <p className={css.detail}>
-          <span className={css.label}>Тип локації:</span>{" "}
-          {locationTypeName}
+          <span className={css.label}>Тип локації:</span> {locationTypeName}
         </p>
 
         <p className={css.detail}>
           <span className={css.label}>Автор статті:</span>{" "}
           {owner ? (
-            <Link
-              href={`/profile/${owner._id}`}
-              className={css.author}
-            >
+            <Link href={`/profile/${owner._id}`} className={css.author}>
               {owner.name}
             </Link>
           ) : (

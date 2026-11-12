@@ -1,6 +1,5 @@
 "use client";
 
-import { Location } from "@/types/profile";
 import css from "./PopularLocationsBlock.module.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -9,6 +8,7 @@ import { Navigation } from "swiper/modules";
 import LocationCard from "./LocationCard/LocationCard";
 import { AppButton, AppLink } from "@/components/Ui/Button/Button";
 import { Icon } from "@/components/Ui/Icon/Icon";
+import { Location } from "@/types/location";
 
 interface PopularLocationsBlockProps {
   locations: Location[];

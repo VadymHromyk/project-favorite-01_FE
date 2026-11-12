@@ -2,7 +2,7 @@ import PopularLocationsBlock from "./PopularLocationsBlock";
 import { getAllLocations } from "@/utils/getAllLocations";
 import { getLocationTypes } from "@/lib/locationsApi";
 import { normalizeLocationsByType } from "@/utils/getLocationsWithNormalizedTypes";
-import { Location } from "@/types/profile";
+import { Location } from "@/types/location";
 
 export default async function PopularSection() {
   let locationsWithRating: Location[] = [];

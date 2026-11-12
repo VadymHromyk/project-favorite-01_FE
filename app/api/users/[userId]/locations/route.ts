@@ -12,7 +12,7 @@ export async function GET(req: NextRequest, { params }: RouteContext) {
   try {
     const { data } = await api.get(`/users/${userId}/locations`);
 
-    return NextResponse.json(data.data);
+    return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(
       {

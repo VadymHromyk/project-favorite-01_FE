@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { getLocations } from "@/lib/locationsApi";
-import type { Location } from "@/types/profile";
+import { Location } from "@/types/location";
 
 export const getAllLocations = cache(async (): Promise<Location[]> => {
   let page = 1;

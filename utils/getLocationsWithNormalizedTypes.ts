@@ -1,4 +1,4 @@
-import { Location } from "@/types/profile";
+import { Location } from "@/types/location";
 
 export type LocationTypeItem = {
   _id?: string;
@@ -32,11 +32,7 @@ export function normalizeLocationsByType(
     const rawLoc = location as unknown as Record<string, unknown>;
 
     const actualRate = Number(
-      location.rate ??
-        location.rating ??
-        rawLoc.avgRating ??
-        rawLoc.averageRating ??
-        0,
+      location.rate ?? rawLoc.avgRating ?? rawLoc.averageRating ?? 0,
     );
 
     return {
