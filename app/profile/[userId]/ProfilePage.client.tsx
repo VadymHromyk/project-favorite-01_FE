@@ -37,9 +37,9 @@ const ProfileClient = ({ userId, isOwnProfile }: ProfileClientProps) => {
     refetchOnWindowFocus: false,
   });
 
-  const locations = data?.pages.flatMap((page) => page ?? []) ?? [];
+  const locations = data?.pages.flatMap((page) => page.data ?? []) ?? [];
 
-  if (!isPending && !error && locations.length === 0) {
+  if (!isPending && !error && locations?.length === 0) {
     return <ProfilePlaceholder isOwnProfile={isOwnProfile} />;
   }
 

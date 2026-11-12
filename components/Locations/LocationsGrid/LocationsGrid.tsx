@@ -2,10 +2,10 @@
 
 import css from "./LocationGrid.module.css";
 import LocationCard from "@/components/Home/PopularLocationsBlock/LocationCard/LocationCard";
-import { Location } from "@/types/profile";
 import { AppButton } from "@/components/Ui/Button/Button";
 import { useEffect, useRef } from "react";
 import Loader from "@/components/Loader/Loader";
+import { Location } from "@/types/location";
 
 interface LocationGridProps {
   locations: Location[];

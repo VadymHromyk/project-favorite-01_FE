@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import type { LocationDetails, LocationOwner } from "@/types/location";
+import type { Location, LocationOwner } from "@/types/location";
 
 import LocationInfoBlock from "@/components/LocationInfoBlock/LocationInfoBlock";
 import LocationGallery from "@/components/LocationGallery/LocationGallery";
@@ -11,7 +11,7 @@ import ReviewsSection from "@/components/ReviewsSection/ReviewsSection";
 
 import css from "./LocationDetailsPage.module.css";
 
-interface ApiLocationDetails extends LocationDetails {
+interface ApiLocationDetails extends Location {
   type?: string;
   owner?: LocationOwner | null;
 }
@@ -51,7 +51,7 @@ export default function LocationDetailsPage({
   const [isLoading, setIsLoading] = useState(true);
   const [reviewsError, setReviewsError] = useState<string | null>(null);
 
-  const normalizedLocation: LocationDetails = {
+  const normalizedLocation: Location = {
     ...location,
     locationType: location.locationType || location.type || "Не вказано",
     ownerId: location.ownerId ?? location.owner ?? null,

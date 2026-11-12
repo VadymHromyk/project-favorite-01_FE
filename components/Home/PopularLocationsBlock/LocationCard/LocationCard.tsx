@@ -1,9 +1,9 @@
 import Image from "next/image";
 import css from "./LocationCard.module.css";
-import { Location } from "@/types/profile";
 import { Stars } from "@/components/Ui/Stars";
 import { AppLink } from "@/components/Ui/Button/Button";
 import { Icon } from "@/components/Ui/Icon/Icon";
+import { Location } from "@/types/location";
 
 interface LocationCardProps {
   location: Location;
@@ -14,7 +14,7 @@ export default function LocationCard({
   location,
   isOwnProfile = false,
 }: LocationCardProps) {
-  const rate = location.rate ?? location.rating ?? 0;
+  const rate = location.rate ?? 0;
   const imageUrl = location.image || "/placeholder-location.webp";
 
   return (

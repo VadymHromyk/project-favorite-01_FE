@@ -1,5 +1,5 @@
 import { Feedback, FeedbackWithLocation } from "@/types/feedbacks";
-import { Location } from "@/types/profile";
+import { Location } from "@/types/location";
 
 function toLocationId(value: unknown): string | null {
   if (typeof value === "string") return value;
@@ -12,7 +12,7 @@ function toLocationId(value: unknown): string | null {
 
 export default function getFeedbackWithLocationName(
   feedbacks: Feedback[] = [],
-  locations: Location[] = []
+  locations: Location[] = [],
 ): FeedbackWithLocation[] {
   const locationMap = new Map<string, string>();
 
@@ -24,7 +24,7 @@ export default function getFeedbackWithLocationName(
 
   return feedbacks.map((feedback) => {
     const locId = toLocationId(feedback.locationId);
-    const locationName = locId ? locationMap.get(locId) ?? null : null;
+    const locationName = locId ? (locationMap.get(locId) ?? null) : null;
 
     return {
       ...feedback,
